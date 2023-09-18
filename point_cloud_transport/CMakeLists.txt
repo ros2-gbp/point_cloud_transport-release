@@ -118,7 +118,7 @@ install(
 )
 
 # Install include directories
-install(DIRECTORY include/ $<BUILD_INTERFACE:${expected_SOURCE_DIR}/include/> DESTINATION include/${PROJECT_NAME})
+install(DIRECTORY include/ ${expected_SOURCE_DIR}/include/ DESTINATION include/${PROJECT_NAME})
 
 ament_export_include_directories("include/${PROJECT_NAME}")
 
@@ -147,7 +147,7 @@ if(BUILD_TESTING)
     LANGUAGE c++
   )
   ament_cpplint(EXCLUDE ${_linter_excludes})
-  ament_flake8(EXCLUDE ${_linter_excludes})
+  ament_flake8()
   ament_lint_cmake()
   ament_pep257(EXCLUDE ${_linter_excludes})
   ament_uncrustify(

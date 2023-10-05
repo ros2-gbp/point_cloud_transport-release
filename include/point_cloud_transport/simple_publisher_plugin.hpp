@@ -106,8 +106,18 @@ public:
     rcl_interfaces::msg::ParameterDescriptor())
   {
     if (simple_impl_) {
+      // Declare Parameters
+      uint ns_len = simple_impl_->node_->get_effective_namespace().length();
+      std::string param_base_name = getTopic().substr(ns_len);
+      std::replace(param_base_name.begin(), param_base_name.end(), '/', '.');
+
+      std::string param_name = param_base_name + "." + parameter_name;
+
+      rcl_interfaces::msg::ParameterDescriptor param_descriptor = parameter_descriptor;
+      param_descriptor.name = param_name;
+
       simple_impl_->node_->template declare_parameter<T>(
-        parameter_name, value, parameter_descriptor);
+        param_name, value, param_descriptor);
       return true;
     }
     return false;

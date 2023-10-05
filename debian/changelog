@@ -1,0 +1,35 @@
+ros-iron-point-cloud-transport (2.0.2-1jammy) jammy; urgency=high
+
+  * Fix param name (#39 <https://github.com/ros-perception/point_cloud_transport/issues/39>) (#41 <https://github.com/ros-perception/point_cloud_transport/issues/41>)
+    (cherry picked from commit 7acc9458dbfd75dcb4e8e2c984fd16e5d5d5aac8)
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+  * Fixed param name (#36 <https://github.com/ros-perception/point_cloud_transport/issues/36>) (#38 <https://github.com/ros-perception/point_cloud_transport/issues/38>)
+    (cherry picked from commit 851434a59ef2de7bccb1a46e27882c0480534289)
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+  * Contributors: mergify[bot]
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 04 Oct 2023 22:00:00 -0000
+
+ros-iron-point-cloud-transport (2.0.1-1jammy) jammy; urgency=high
+
+  * feat: replace third party expected with ros package (#32 <https://github.com/ros-perception/point_cloud_transport/issues/32>) (#34 <https://github.com/ros-perception/point_cloud_transport/issues/34>)
+    (cherry picked from commit d13b7a2feb63c82cbd619a99a7eed7c95f9ac558)
+    Co-authored-by: Daisuke Nishimatsu <mailto:42202095+wep21@users.noreply.github.com>
+  * fix: modify wrong install for header (#30 <https://github.com/ros-perception/point_cloud_transport/issues/30>)
+  * Contributors: Daisuke Nishimatsu, mergify[bot]
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Tue, 19 Sep 2023 22:00:00 -0000
+
+ros-iron-point-cloud-transport (2.0.0-1jammy) jammy; urgency=high
+
+  * Removed warning (#28 <https://github.com/ros-perception/point_cloud_transport/issues/28>)
+  * Added point_cloud_transport_py (#26 <https://github.com/ros-perception/point_cloud_transport/issues/26>)
+  * Bug fixes from porting tutorials (#18 <https://github.com/ros-perception/point_cloud_transport/issues/18>)
+  * Use whitelist instead of blacklist (#13 <https://github.com/ros-perception/point_cloud_transport/issues/13>)
+  * Add ThirdParty folder to support building offline without FetchContent (#12 <https://github.com/ros-perception/point_cloud_transport/issues/12>)
+  * Fix pointcloud-codec and python bindings (#3 <https://github.com/ros-perception/point_cloud_transport/issues/3>)
+  * Contributors: Alejandro Hernández Cordero, john-maidbot
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 17 Sep 2023 22:00:00 -0000
+
+

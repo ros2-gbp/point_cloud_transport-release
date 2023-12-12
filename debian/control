@@ -1,0 +1,12 @@
+Source: ros-iron-point-cloud-transport
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernández <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-iron-ament-cmake-copyright <!nocheck>, ros-iron-ament-cmake-cppcheck <!nocheck>, ros-iron-ament-cmake-cpplint <!nocheck>, ros-iron-ament-cmake-flake8 <!nocheck>, ros-iron-ament-cmake-gtest <!nocheck>, ros-iron-ament-cmake-lint-cmake <!nocheck>, ros-iron-ament-cmake-pep257 <!nocheck>, ros-iron-ament-cmake-ros, ros-iron-ament-cmake-uncrustify <!nocheck>, ros-iron-ament-cmake-xmllint <!nocheck>, ros-iron-message-filters, ros-iron-pluginlib, ros-iron-rclcpp, ros-iron-rclcpp-components, ros-iron-sensor-msgs, ros-iron-tl-expected, ros-iron-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-iron-point-cloud-transport
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-iron-message-filters, ros-iron-pluginlib, ros-iron-rclcpp, ros-iron-rclcpp-components, ros-iron-sensor-msgs, ros-iron-tl-expected, ros-iron-ros-workspace
+Description: Support for transporting PointCloud2 messages in compressed format and plugin interface for implementing additional PointCloud2 transports.

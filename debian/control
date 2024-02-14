@@ -1,0 +1,12 @@
+Source: ros-iron-point-cloud-transport-py
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernández <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-iron-ament-cmake-python, ros-iron-ament-cmake-ros, ros-iron-pluginlib, ros-iron-point-cloud-transport, ros-iron-pybind11-vendor, ros-iron-python-cmake-module, ros-iron-rclcpp, ros-iron-sensor-msgs, ros-iron-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-iron-point-cloud-transport-py
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-iron-pluginlib, ros-iron-point-cloud-transport, ros-iron-pybind11-vendor, ros-iron-rclcpp, ros-iron-rpyutils, ros-iron-sensor-msgs, ros-iron-ros-workspace
+Description: Python API for point_cloud_transport

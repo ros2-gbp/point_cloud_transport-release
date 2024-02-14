@@ -44,7 +44,6 @@
 #include <point_cloud_transport/loader_fwds.hpp>
 #include <point_cloud_transport/publisher_plugin.hpp>
 #include <point_cloud_transport/subscriber_plugin.hpp>
-#include "point_cloud_transport/visibility_control.hpp"
 
 namespace point_cloud_transport
 {
@@ -56,11 +55,9 @@ class PointCloudCodec
 {
 public:
   //! Constructor
-  POINT_CLOUD_TRANSPORT_PUBLIC
   PointCloudCodec();
 
   //! Destructor
-  POINT_CLOUD_TRANSPORT_PUBLIC
   virtual ~PointCloudCodec();
 
   /// \brief Get a shared pointer to an instance of a publisher plugin given its
@@ -69,7 +66,6 @@ public:
   ///
   /// \param name The name of the transport to load.
   /// \returns A shared pointer to the publisher plugin.
-  POINT_CLOUD_TRANSPORT_PUBLIC
   std::shared_ptr<point_cloud_transport::PublisherPlugin> getEncoderByName(
     const std::string & name);
 
@@ -79,7 +75,6 @@ public:
   ///
   /// \param name The name of the transport to load.
   /// \returns A shared pointer to the subscriber plugin.
-  POINT_CLOUD_TRANSPORT_PUBLIC
   std::shared_ptr<point_cloud_transport::SubscriberPlugin> getDecoderByName(
     const std::string & name);
 
@@ -89,7 +84,6 @@ public:
   /// \param[out] transports Vector of the loadable transport plugins.
   /// \param[out] names Vector of string identifieries for the transport provided by each plugin
   ///
-  POINT_CLOUD_TRANSPORT_PUBLIC
   void getLoadableTransports(
     std::vector<std::string> & transports,
     std::vector<std::string> & names);
@@ -104,7 +98,6 @@ public:
   /// \param[out] names Vector of string identifieries for the transport provided by each plugin
   /// \param[out] dataTypes Vector of the data types the transports encode a PointCloud2 into
   ///
-  POINT_CLOUD_TRANSPORT_PUBLIC
   void getTopicsToPublish(
     const std::string & baseTopic,
     std::vector<std::string> & transports,
@@ -122,7 +115,6 @@ public:
   /// \param[out] name String identifier for the transport provided by the plugin
   /// \param[out] dataType The data type the transport encodes a PointCloud2 into
   ///
-  POINT_CLOUD_TRANSPORT_PUBLIC
   void getTopicToSubscribe(
     const std::string & baseTopic,
     const std::string & transport,
@@ -141,7 +133,6 @@ public:
   /// \param[out] serialized_msg The serialized message to store the encoded message in.
   /// \returns True if the message was successfully encoded, false otherwise.
   ///
-  POINT_CLOUD_TRANSPORT_PUBLIC
   bool encode(
     const std::string & transport_name,
     const sensor_msgs::msg::PointCloud2 & msg,
@@ -158,7 +149,6 @@ public:
   /// \returns True if the message was successfully encoded, false otherwise.
   ///
   template<class M>
-  POINT_CLOUD_TRANSPORT_PUBLIC
   bool encodeTyped(
     const std::string & transport_name,
     const sensor_msgs::msg::PointCloud2 & msg,
@@ -174,7 +164,6 @@ public:
   /// \param[out] msg The message to store the decoded output in.
   /// \returns True if the message was successfully decoded, false otherwise.
   ///
-  POINT_CLOUD_TRANSPORT_PUBLIC
   bool decode(
     const std::string & transport_name,
     const rclcpp::SerializedMessage & serialized_msg,
@@ -190,7 +179,6 @@ public:
   /// \returns True if the message was successfully decoded, false otherwise.
   ///
   template<class M>
-  POINT_CLOUD_TRANSPORT_PUBLIC
   bool decodeTyped(
     const std::string & transport_name,
     const M & compressed_msg,

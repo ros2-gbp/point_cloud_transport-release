@@ -42,7 +42,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include "rclcpp/serialization.hpp"
 #include <sensor_msgs/msg/point_cloud2.hpp>
-#include <rcpputils/tl_expected/expected.hpp>
+#include <tl_expected/expected.hpp>
 
 #include <point_cloud_transport/point_cloud_common.hpp>
 #include <point_cloud_transport/publisher_plugin.hpp>
@@ -172,6 +172,7 @@ public:
   /// \return The output rmw serialized msg holding the compressed cloud message
   /// (if encoding succeeds), or an error message.
   ///
+  POINT_CLOUD_TRANSPORT_PUBLIC
   virtual TypedEncodeResult encodeTyped(
     const sensor_msgs::msg::PointCloud2 & raw) const = 0;
 

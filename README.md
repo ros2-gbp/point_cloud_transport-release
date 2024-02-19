@@ -1,3 +1,28 @@
+## point_cloud_transport (humble) - 1.0.16-1
+
+The packages in the `point_cloud_transport` repository were released into the `humble` distro by running `/usr/bin/bloom-release --rosdistro humble --track humble point_cloud_transport` on `Mon, 19 Feb 2024 09:32:35 -0000`
+
+These packages were released:
+- `point_cloud_transport`
+- `point_cloud_transport_py`
+
+Version of package(s) in repository `point_cloud_transport`:
+
+- upstream repository: https://github.com/ros-perception/point_cloud_transport
+- release repository: https://github.com/ros2-gbp/point_cloud_transport-release.git
+- rosdistro version: `1.0.15-1`
+- old version: `1.0.15-1`
+- new version: `1.0.16-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.22.2`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## point_cloud_transport (iron) - 2.0.4-1
 
 The packages in the `point_cloud_transport` repository were released into the `iron` distro by running `/usr/bin/bloom-release --rosdistro iron --track iron point_cloud_transport -e` on `Wed, 14 Feb 2024 09:11:26 -0000`

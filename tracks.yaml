@@ -76,4 +76,5 @@ tracks:
     ros_distro: rolling
     vcs_type: git
     vcs_uri: https://github.com/ros-perception/point_cloud_transport
-    version: :{auto}
+    version: 3.0.4
+    version_saved: :{auto}

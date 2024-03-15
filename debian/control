@@ -1,0 +1,12 @@
+Source: ros-rolling-point-cloud-transport
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernández <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-rolling-ament-cmake-ros, ros-rolling-ament-lint-auto <!nocheck>, ros-rolling-ament-lint-common <!nocheck>, ros-rolling-message-filters, ros-rolling-pluginlib, ros-rolling-rclcpp, ros-rolling-rclcpp-components, ros-rolling-rcpputils, ros-rolling-sensor-msgs, ros-rolling-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-rolling-point-cloud-transport
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-rolling-message-filters, ros-rolling-pluginlib, ros-rolling-rclcpp, ros-rolling-rclcpp-components, ros-rolling-rcpputils, ros-rolling-sensor-msgs, ros-rolling-ros-workspace
+Description: Support for transporting PointCloud2 messages in compressed format and plugin interface for implementing additional PointCloud2 transports.

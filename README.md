@@ -4,7 +4,7 @@
 
 ROS2 Distro | Build Status | Package build |
 :---------: | :----: | :----------: |
-Rolling |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rdev__point_cloud_transport__ubuntu_jammy_amd64)](https://build.ros2.org/job/Rdev__point_cloud_transport__ubuntu_jammy_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uJ64__point_cloud_transport__ubuntu_jammy_amd64__binary)](https://build.ros2.org/job/Rbin_uJ64__point_cloud_transport__ubuntu_jammy_amd64__binary/) |
+Rolling |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rdev__point_cloud_transport__ubuntu_noble_amd64)](https://build.ros2.org/job/Rdev__point_cloud_transport__ubuntu_noble_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Rbin_uJ64__point_cloud_transport__ubuntu_noble_amd64__binary)](https://build.ros2.org/job/Rbin_uJ64__point_cloud_transport__ubuntu_noble_amd64__binary/) |
 Iron |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Idev__point_cloud_transport__ubuntu_jammy_amd64)](https://build.ros2.org/job/Idev__point_cloud_transport__ubuntu_jammy_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Ibin_uJ64__point_cloud_transport__ubuntu_jammy_amd64__binary)](https://build.ros2.org/job/Ibin_uJ64__point_cloud_transport__ubuntu_jammy_amd64__binary/) |
 Humble |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hdev__point_cloud_transport__ubuntu_jammy_amd64)](https://build.ros2.org/job/Hdev__point_cloud_transport__ubuntu_jammy_amd64/) |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hbin_uJ64__point_cloud_transport__ubuntu_jammy_amd64__binary)](https://build.ros2.org/job/Hbin_uJ64__point_cloud_transport__ubuntu_jammy_amd64__binary/) |
 
@@ -66,7 +66,7 @@ We provide a process to republish any topic speaking in a given transport to a d
 e.g. have it subscribe to a topic you recorded encoded using draco and publish it as a raw, decoded message
 
 ```bash
-ros2 run point_cloud_transport republish --in_transport draco --out_transport raw --ros-args --remap in:=input_topic_name --remap out:=ouput_topic_name
+ros2 run point_cloud_transport republish --ros-args -p in_transport:=raw -p out_transport:=draco --remap in:=input_topic_name --remap out:=ouput_topic_name
 ```
 
 ### Python
@@ -85,8 +85,9 @@ ros2 run point_cloud_transport_tutorial my_publisher --ros-args -p pct.point_clo
 
 ## Known transports
 
-- [draco_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/ros2/draco_point_cloud_transport): Lossy compression via Google
-- [zlib_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/ros2/zlib_point_cloud_transport): Lossless compression via Zlib compression.
+- [draco_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/rolling/draco_point_cloud_transport): Lossy compression via Google
+- [zlib_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/rolling/zlib_point_cloud_transport): Lossless compression via Zlib compression.
+- [zstd_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/rolling/zstd_point_cloud_transport): Lossless compression via Zstd compression.
 - Did you write one? Don't hesitate and send a pull request adding it to this list!
 
 ## Authors

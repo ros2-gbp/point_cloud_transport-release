@@ -1,0 +1,62 @@
+ros-rolling-point-cloud-transport-py (5.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 12 May 2024 22:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (4.1.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Mon, 29 Apr 2024 22:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (4.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Thu, 28 Mar 2024 23:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (3.0.5-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Thu, 14 Mar 2024 23:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (3.0.4-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sat, 18 Feb 2023 23:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (3.0.3-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 12 Feb 2023 23:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (3.0.2-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Mon, 11 Dec 2023 23:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (3.0.1-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 04 Oct 2023 22:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (3.0.0-1noble) noble; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Tue, 19 Sep 2023 22:00:00 -0000
+
+ros-rolling-point-cloud-transport-py (2.0.0-1noble) noble; urgency=high
+
+  * Added point_cloud_transport_py (#26 <https://github.com/ros-perception/point_cloud_transport/issues/26>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 17 Sep 2023 22:00:00 -0000
+
+

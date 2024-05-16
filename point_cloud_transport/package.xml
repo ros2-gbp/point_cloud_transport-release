@@ -1,7 +1,7 @@
 <package format="3">
   <name>point_cloud_transport</name>
 
-  <version>5.0.0</version>
+  <version>1.0.18</version>
 
   <description>
     Support for transporting PointCloud2 messages in compressed format and plugin interface for implementing additional PointCloud2 transports.
@@ -31,7 +31,6 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <rosdoc2>rosdoc2.yaml</rosdoc2>
   </export>
 
 </package>

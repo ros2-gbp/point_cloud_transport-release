@@ -1,6 +1,4 @@
-// Copyright (c) 2023, Czech Technical University in Prague
-// Copyright (c) 2019, paplhjak
-// Copyright (c) 2009, Willow Garage, Inc.
+// Copyright 2024 Open Source Robotics Foundation, Inc.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -27,35 +25,66 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-//
 
-#include <list>
+#include "point_cloud_transport/subscriber_filter.hpp"
+
+#include <memory>
 #include <string>
-
-#include <point_cloud_transport/publisher_plugin.hpp>
-#include <point_cloud_transport/single_subscriber_publisher.hpp>
 
 namespace point_cloud_transport
 {
+SubscriberFilter::SubscriberFilter(
+  std::shared_ptr<rclcpp::Node> node, const std::string & base_topic,
+  const std::string & transport)
+{
+  subscribe(node, base_topic, transport);
+}
 
-void PublisherPlugin::advertise(
+SubscriberFilter::SubscriberFilter()
+{
+}
+
+SubscriberFilter::~SubscriberFilter()
+{
+  unsubscribe();
+}
+
+void SubscriberFilter::subscribe(
   std::shared_ptr<rclcpp::Node> node,
   const std::string & base_topic,
+  const std::string & transport,
   rmw_qos_profile_t custom_qos,
-  const rclcpp::PublisherOptions & options)
+  rclcpp::SubscriptionOptions options)
 {
-  advertiseImpl(node, base_topic, custom_qos, options);
+  unsubscribe();
+  sub_ = point_cloud_transport::create_subscription(
+    node, base_topic,
+    std::bind(&SubscriberFilter::cb, this, std::placeholders::_1),
+    transport, custom_qos, options);
 }
 
-void PublisherPlugin::publishPtr(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & message)
-const
+void SubscriberFilter::unsubscribe()
 {
-  publish(*message);
+  sub_.shutdown();
 }
 
-std::string PublisherPlugin::getLookupName(const std::string & transport_name)
+std::string SubscriberFilter::getTopic() const
 {
-  return "point_cloud_transport/" + transport_name + "_pub";
+  return sub_.getTopic();
 }
 
+uint32_t SubscriberFilter::getNumPublishers() const
+{
+  return sub_.getNumPublishers();
+}
+
+std::string SubscriberFilter::getTransport() const
+{
+  return sub_.getTransport();
+}
+
+const Subscriber & SubscriberFilter::getSubscriber() const
+{
+  return sub_;
+}
 }  // namespace point_cloud_transport

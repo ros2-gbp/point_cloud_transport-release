@@ -1,3 +1,28 @@
+## point_cloud_transport (jazzy) - 4.0.2-1
+
+The packages in the `point_cloud_transport` repository were released into the `jazzy` distro by running `/usr/bin/bloom-release --rosdistro jazzy point_cloud_transport` on `Thu, 27 Jun 2024 11:07:37 -0000`
+
+These packages were released:
+- `point_cloud_transport`
+- `point_cloud_transport_py`
+
+Version of package(s) in repository `point_cloud_transport`:
+
+- upstream repository: https://github.com/ros-perception/point_cloud_transport
+- release repository: https://github.com/ros2-gbp/point_cloud_transport-release.git
+- rosdistro version: `4.0.1-1`
+- old version: `4.0.1-1`
+- new version: `4.0.2-1`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.22.2`
+- rosdistro version: `0.9.0`
+- vcstools version: `0.1.42`
+
+
 ## point_cloud_transport (rolling) - 5.0.2-1
 
 The packages in the `point_cloud_transport` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --track rolling --rosdistro rolling point_cloud_transport` on `Mon, 17 Jun 2024 15:09:28 -0000`

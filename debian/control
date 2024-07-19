@@ -1,0 +1,12 @@
+Source: ros-rolling-point-cloud-transport-py
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernández <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-rolling-ament-cmake-python, ros-rolling-ament-cmake-ros, ros-rolling-pluginlib, ros-rolling-point-cloud-transport, ros-rolling-pybind11-vendor, ros-rolling-python-cmake-module, ros-rolling-rclcpp, ros-rolling-sensor-msgs, ros-rolling-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-rolling-point-cloud-transport-py
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-rolling-pluginlib, ros-rolling-point-cloud-transport, ros-rolling-pybind11-vendor, ros-rolling-rclcpp, ros-rolling-rpyutils, ros-rolling-sensor-msgs, ros-rolling-ros-workspace
+Description: Python API for point_cloud_transport

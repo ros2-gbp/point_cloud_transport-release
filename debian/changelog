@@ -1,0 +1,103 @@
+ros-jazzy-point-cloud-transport (4.0.4-1bookworm) bookworm; urgency=high
+
+  * fix: add rclcpp::shutdown (#110 <https://github.com/ros-perception/point_cloud_transport/issues/110>) (#111 <https://github.com/ros-perception/point_cloud_transport/issues/111>)
+    (cherry picked from commit 40fec8f3e30b2ed68f6f5ad4915b098cece4c68a)
+    Co-authored-by: Yuyuan Yuan <mailto:az6980522@gmail.com>
+  * Contributors: mergify[bot]
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 02 Apr 2025 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (4.0.3-1bookworm) bookworm; urgency=high
+
+
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 18 Dec 2024 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (4.0.2-1bookworm) bookworm; urgency=high
+
+  * Stop using ament_target_dependencies. (#86 <https://github.com/ros-perception/point_cloud_transport/issues/86>) (#87 <https://github.com/ros-perception/point_cloud_transport/issues/87>)
+    Co-authored-by: Chris Lalancette <mailto:clalancette@gmail.com>
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Thu, 27 Jun 2024 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (4.0.1-1bookworm) bookworm; urgency=high
+
+  * [rolling] Get user specified parameters at startup (#80 <https://github.com/ros-perception/point_cloud_transport/issues/80>) (#82 <https://github.com/ros-perception/point_cloud_transport/issues/82>)
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+    (cherry picked from commit 90c603a1e8fb56c3203ff6870e4f2205c37e59b4)
+    Co-authored-by: john-maidbot <mailto:78750993+john-maidbot@users.noreply.github.com>
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+  * Contributors: mergify[bot]
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Fri, 24 May 2024 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (4.0.0-1bookworm) bookworm; urgency=high
+
+  * Rename the republish_node to pc_republish_node. (#75 <https://github.com/ros-perception/point_cloud_transport/issues/75>)
+  * Fixed flake8 errors (#72 <https://github.com/ros-perception/point_cloud_transport/issues/72>)
+  * Added documentation (#69 <https://github.com/ros-perception/point_cloud_transport/issues/69>)
+  * Contributors: Alejandro Hernández Cordero, Chris Lalancette
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Fri, 29 Mar 2024 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (3.0.5-1bookworm) bookworm; urgency=high
+
+  * Fixed SubscriberFilter linking issue on windows (#64 <https://github.com/ros-perception/point_cloud_transport/issues/64>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Fri, 15 Mar 2024 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (3.0.4-1bookworm) bookworm; urgency=high
+
+  * Cleanup republisher (#58 <https://github.com/ros-perception/point_cloud_transport/issues/58>)
+  * Fixed clang issues (#55 <https://github.com/ros-perception/point_cloud_transport/issues/55>)
+  * Fixed MacOS M1 build (#57 <https://github.com/ros-perception/point_cloud_transport/issues/57>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 19 Feb 2023 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (3.0.3-1bookworm) bookworm; urgency=high
+
+  * Improve Windows support (#50 <https://github.com/ros-perception/point_cloud_transport//issues/50>)
+  * Change tl_expected for rcpputils (#48 <https://github.com/ros-perception/point_cloud_transport//issues/48>)
+  * Clean CMake (#49 <https://github.com/ros-perception/point_cloud_transport//issues/49>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Mon, 13 Feb 2023 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (3.0.2-1bookworm) bookworm; urgency=high
+
+  * Fixed draco subscriber parameter names (#43 <https://github.com/ros-perception/point_cloud_transport/issues/43>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Tue, 12 Dec 2023 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (3.0.1-1bookworm) bookworm; urgency=high
+
+  * Fix param name (#39 <https://github.com/ros-perception/point_cloud_transport/issues/39>)
+  * Fixed param name (#36 <https://github.com/ros-perception/point_cloud_transport/issues/36>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Thu, 05 Oct 2023 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (3.0.0-1bookworm) bookworm; urgency=high
+
+  * feat: replace third party expected with ros package (#32 <https://github.com/ros-perception/point_cloud_transport/issues/32>)
+  * fix: modify wrong install for header (#30 <https://github.com/ros-perception/point_cloud_transport/issues/30>)
+  * Contributors: Daisuke Nishimatsu
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 20 Sep 2023 00:00:00 -0000
+
+ros-jazzy-point-cloud-transport (2.0.0-1bookworm) bookworm; urgency=high
+
+  * Removed warning (#28 <https://github.com/ros-perception/point_cloud_transport/issues/28>)
+  * Added point_cloud_transport_py (#26 <https://github.com/ros-perception/point_cloud_transport/issues/26>)
+  * Bug fixes from porting tutorials (#18 <https://github.com/ros-perception/point_cloud_transport/issues/18>)
+  * Use whitelist instead of blacklist (#13 <https://github.com/ros-perception/point_cloud_transport/issues/13>)
+  * Add ThirdParty folder to support building offline without FetchContent (#12 <https://github.com/ros-perception/point_cloud_transport/issues/12>)
+  * Fix pointcloud-codec and python bindings (#3 <https://github.com/ros-perception/point_cloud_transport/issues/3>)
+  * Contributors: Alejandro Hernández Cordero, john-maidbot
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Mon, 18 Sep 2023 00:00:00 -0000
+
+

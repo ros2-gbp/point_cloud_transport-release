@@ -2,20 +2,34 @@
 Changelog for package point_cloud_transport_py
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-4.0.4 (2025-04-02)
+5.1.1 (2024-11-25)
+------------------
+* Add in dependency on python3-dev. (`#103 <https://github.com/ros-perception/point_cloud_transport/issues/103>`_)
+* Contributors: Chris Lalancette
+
+5.1.0 (2024-11-20)
+------------------
+* Remove use of python_cmake_module. (`#63 <https://github.com/ros-perception/point_cloud_transport/issues/63>`_)
+* Contributors: Chris Lalancette
+
+5.0.4 (2024-10-03)
+------------------
+* remove extra semicolon (`#98 <https://github.com/ros-perception/point_cloud_transport/issues/98>`_)
+* Contributors: Manu
+
+5.0.3 (2024-07-19)
 ------------------
 
-4.0.3 (2024-12-18)
-------------------
-* remove extra semicolon (`#98 <https://github.com/ros-perception/point_cloud_transport/issues/98>`_) (`#99 <https://github.com/ros-perception/point_cloud_transport/issues/99>`_)
-  (cherry picked from commit 7cc2e9731e6c89aef8107f252cd2c1561be4612d)
-  Co-authored-by: Manu <manuel.mueller.mts@gmail.com>
-* Contributors: mergify[bot]
-
-4.0.2 (2024-06-27)
+5.0.2 (2024-06-17)
 ------------------
 
-4.0.1 (2024-05-24)
+5.0.1 (2024-06-14)
+------------------
+
+5.0.0 (2024-05-13)
+------------------
+
+4.1.0 (2024-04-30)
 ------------------
 
 4.0.0 (2024-03-29)

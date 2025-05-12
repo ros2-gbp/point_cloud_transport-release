@@ -1,3 +1,28 @@
+## point_cloud_transport (kilted) - 5.1.3-1
+
+The packages in the `point_cloud_transport` repository were released into the `kilted` distro by running `/home/cottsay/infra_ws/install/bloom/bin/bloom-release point_cloud_transport -r kilted` on `Mon, 12 May 2025 22:43:40 -0000`
+
+These packages were released:
+- `point_cloud_transport`
+- `point_cloud_transport_py`
+
+Version of package(s) in repository `point_cloud_transport`:
+
+- upstream repository: https://github.com/ros-perception/point_cloud_transport
+- release repository: https://github.com/ros2-gbp/point_cloud_transport-release.git
+- rosdistro version: `5.1.1-2`
+- old version: `5.1.1-2`
+- new version: `5.1.3-1`
+
+Versions of tools used:
+
+- bloom version: `0.12.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.25.1`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## point_cloud_transport (rolling) - 5.2.0-1
 
 The packages in the `point_cloud_transport` repository were released into the `rolling` distro by running `/home/cottsay/infra_ws/install/bloom/bin/bloom-release point_cloud_transport -r rolling` on `Mon, 28 Apr 2025 20:17:17 -0000`

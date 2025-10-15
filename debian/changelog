@@ -1,0 +1,162 @@
+ros-humble-point-cloud-transport (1.0.19-1jammy) jammy; urgency=high
+
+  * Use standard unsigned int in place of uint for Windows compatibility (backport #134 <https://github.com/ros-perception/point_cloud_transport/issues/134>) (#137 <https://github.com/ros-perception/point_cloud_transport/issues/137>)
+  * Contributors: mergify[bot]
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Tue, 14 Oct 2025 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.18-1jammy) jammy; urgency=high
+
+  * [rolling] Get user specified parameters at startup (#80 <https://github.com/ros-perception/point_cloud_transport/issues/80>) (#83 <https://github.com/ros-perception/point_cloud_transport/issues/83>)
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+    (cherry picked from commit 90c603a1e8fb56c3203ff6870e4f2205c37e59b4)
+    Co-authored-by: john-maidbot <mailto:78750993+john-maidbot@users.noreply.github.com>
+  * Rename the republish_node to pc_republish_node. (#75 <https://github.com/ros-perception/point_cloud_transport/issues/75>) (#77 <https://github.com/ros-perception/point_cloud_transport/issues/77>)
+    The major reason for this is that image_transport already
+    has a republish_node, and when we are building for distribution
+    we can't have two files named /opt/ros/rolling/lib/librepublish_node.so
+    Rename this one to libpc_republish_node, which should remove
+    the conflict.
+    Co-authored-by: Chris Lalancette <mailto:clalancette@gmail.com>
+  * Contributors: Alejandro Hernández Cordero, mergify[bot]
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 15 May 2024 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.17-1jammy) jammy; urgency=high
+
+  * Cleanup republisher (#58 <https://github.com/ros-perception/point_cloud_transport/issues/58>) (#70 <https://github.com/ros-perception/point_cloud_transport/issues/70>)
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+  * Improve Windows support (#50 <https://github.com/ros-perception/point_cloud_transport/issues/50>) (#61 <https://github.com/ros-perception/point_cloud_transport/issues/61>)
+  * Fixed MacOS M1 build (#57 <https://github.com/ros-perception/point_cloud_transport/issues/57>) (#59 <https://github.com/ros-perception/point_cloud_transport/issues/59>)
+  * Contributors: Alejandro Hernández Cordero, john-maidbot
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sat, 25 Mar 2023 23:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.16-1jammy) jammy; urgency=high
+
+  * Change tl_expected for rcpputils (#48 <https://github.com/ros-perception/point_cloud_transport/issues/48>) (#54 <https://github.com/ros-perception/point_cloud_transport/issues/54>)
+  * Clean CMake (#49 <https://github.com/ros-perception/point_cloud_transport/issues/49>) (#53 <https://github.com/ros-perception/point_cloud_transport/issues/53>)
+  * Contributors: Alejandro Hernández Cordero
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sat, 18 Feb 2023 23:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.15-1jammy) jammy; urgency=high
+
+  * Fixed draco subscriber parameter names (#43 <https://github.com/ros-perception/point_cloud_transport/issues/43>) (#44 <https://github.com/ros-perception/point_cloud_transport/issues/44>)
+    (cherry picked from commit 48cd0ced3dcf12d13bf648a903d691355480b18b)
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+  * Contributors: mergify[bot]
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Mon, 11 Dec 2023 23:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.14-1jammy) jammy; urgency=high
+
+  * Fix param name (#39 <https://github.com/ros-perception/point_cloud_transport/issues/39>) (#40 <https://github.com/ros-perception/point_cloud_transport/issues/40>)
+    (cherry picked from commit 7acc9458dbfd75dcb4e8e2c984fd16e5d5d5aac8)
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+  * Fixed param name (#36 <https://github.com/ros-perception/point_cloud_transport/issues/36>) (#37 <https://github.com/ros-perception/point_cloud_transport/issues/37>)
+    (cherry picked from commit 851434a59ef2de7bccb1a46e27882c0480534289)
+    Co-authored-by: Alejandro Hernández Cordero <mailto:ahcorde@gmail.com>
+  * Contributors: mergify[bot]
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 04 Oct 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.13-1jammy) jammy; urgency=high
+
+  * feat: replace third party expected with ros package (#32 <https://github.com/ros-perception/point_cloud_transport/issues/32>) (#33 <https://github.com/ros-perception/point_cloud_transport/issues/33>)
+    (cherry picked from commit d13b7a2feb63c82cbd619a99a7eed7c95f9ac558)
+    Co-authored-by: Daisuke Nishimatsu <mailto:42202095+wep21@users.noreply.github.com>
+  * Contributors: mergify[bot], Daisuke Nishimatsu
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Tue, 19 Sep 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.12-1jammy) jammy; urgency=high
+
+  * ROS2 port
+  * Contributors: Alejandro Hernández Cordero, John D'Angelo
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 17 Sep 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.11-1jammy) jammy; urgency=high
+
+  * Fixed bad_expected_access error when pointcloud encoding fails.
+  * Added known transports to readme.
+  * Update README.md
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Thu, 15 Jun 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.10-1jammy) jammy; urgency=high
+
+  * Fixed wrong dependency version.
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Tue, 23 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.9-1jammy) jammy; urgency=high
+
+  * Fixed bad_expected_access bug in simple_subscriber_plugin.
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Mon, 22 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.8-1jammy) jammy; urgency=high
+
+  * Upstreamed NumberAllocator to cras_py_common.
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 14 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.7-1jammy) jammy; urgency=high
+
+  * Upstreamed Python support functions to cras_py_common v 2.2.1.
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 14 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.6-1jammy) jammy; urgency=high
+
+  * Split Python API into several files.
+  * Improved Python API to allow the pub/sub-like usage.
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Sun, 14 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.5-1jammy) jammy; urgency=high
+
+  * Fixed bug in republish. Plugin blacklist was acting exactly the opposite way.
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Thu, 11 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.4-1jammy) jammy; urgency=high
+
+  * Turned republish into a nodelet (but kept its node version).
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Thu, 11 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.3-1jammy) jammy; urgency=high
+
+  * Added Python API for encode()/decode().
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 10 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.2-1jammy) jammy; urgency=high
+
+  * Added possibility to report log messages.
+  * Contributors: Martin Pecka
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 10 May 2023 22:00:00 -0000
+
+ros-humble-point-cloud-transport (1.0.1-1jammy) jammy; urgency=high
+
+  * Reworked the idea to include direct encoders/decoders and not only publishers/subscribers.
+  * Initial cleanup before releasing. No substantial changes made.
+  * Forked from https://github.com/paplhjak/point_cloud_transport
+  * Contributors: Jakub Paplham, Martin Pecka, Tomas Petricek
+
+ -- Alejandro Hernández <alejandro@openrobotics.org>  Wed, 10 May 2023 22:00:00 -0000
+
+

@@ -14,6 +14,8 @@ Humble |  [![Build Status](https://build.ros2.org/buildStatus/icon?job=Hdev__poi
 [point_cloud_transport](https://github.com/ros-perception/point_cloud_transport) is a [ROS 2](https://www.ros.org/) package for subscribing to and publishing [PointCloud2](http://docs.ros.org/latest/api/sensor_msgs/html/msg/PointCloud2.html) messages via different transport layers.
 E.g. it can provide support for transporting point clouds in low-bandwidth environment using [Draco](https://github.com/google/draco) compression library.
 
+[point_cloud_transport](https://github.com/ros-perception/point_cloud_transport) is **NOT yet** released as C++ source code and binary packages via ROS buildfarm.
+
 ## Usage
 
 [point_cloud_transport](https://github.com/ros-perception/point_cloud_transport) can be used to publish and subscribe to [PointCloud2](http://docs.ros.org/latest/api/sensor_msgs/html/msg/PointCloud2.html) messages. At this level of usage, it is similar to using ROS 2 Publishers and Subscribers. Using [point_cloud_transport](https://github.com/ros-perception/point_cloud_transport) instead of the ROS 2 primitives, however, gives the user much greater flexibility in how point clouds are communicated between nodes.
@@ -74,7 +76,7 @@ ros2 run point_cloud_transport republish --ros-args -p in_transport:=raw -p out_
 
 The functionality of `point_cloud_transport` is also exposed to python via `pybind11` and `rclpy` serialization.
 
-Please see [publisher.py](https://github.com/ros-perception/point_cloud_transport_tutorial/blob/jazzy/scripts/publisher.py) and [subscriber.py](https://github.com/ros-perception/point_cloud_transport_tutorial/blob/jazzy/scripts/subscriber_old_school.py) for example usage.
+Please see [publisher.py](https://github.com/ros-perception/point_cloud_transport_tutorial/blob/humble/scripts/publisher.py) and [subscriber.py](https://github.com/ros-perception/point_cloud_transport_tutorial/blob/humble/scripts/subscriber_old_school.py) for example usage.
 
 ### Whitelist point cloud transport
 
@@ -86,9 +88,8 @@ ros2 run point_cloud_transport_tutorial my_publisher --ros-args -p pct.point_clo
 
 ## Known transports
 
-- [draco_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/jazzy/draco_point_cloud_transport): Lossy compression via Google
-- [zlib_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/jazzy/zlib_point_cloud_transport): Lossless compression via Zlib compression.
-- [zstd_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/jazzy/zstd_point_cloud_transport): Lossless compression via Zstd compression.
+- [draco_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/ros2/draco_point_cloud_transport): Lossy compression via Google
+- [zlib_point_cloud_transport](https://github.com/ros-perception/point_cloud_transport_plugins/tree/ros2/zlib_point_cloud_transport): Lossless compression via Zlib compression.
 - Did you write one? Don't hesitate and send a pull request adding it to this list!
 
 ## Authors

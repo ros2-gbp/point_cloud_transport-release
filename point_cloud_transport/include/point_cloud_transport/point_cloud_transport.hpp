@@ -103,49 +103,11 @@ protected:
 /// \param custom_qos The QoS profile to use for the underlying publisher(s)
 /// \param options The publisher options to use for the underlying publisher(s)
 /// \return The advertised publisher
-[[deprecated("Use create_publisher(rclcpp::node_interfaces...) instead")]]
 POINT_CLOUD_TRANSPORT_PUBLIC
 Publisher create_publisher(
   std::shared_ptr<rclcpp::Node> node,
   const std::string & base_topic,
   rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
-  const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions());
-
-/// \brief Advertise every available transport on pointcloud topics, free function version.
-/// \param node_interfaces the ROS node interfaces required for core node functionality, including
-///    NodeBaseInterface, NodeParametersInterface, NodeTopicsInterface, and NodeLoggingInterface.
-/// \param base_topic The base topic for the publisher
-/// \param custom_qos The QoS profile to use for the underlying publisher(s)
-/// \param options The publisher options to use for the underlying publisher(s)
-/// \return The advertised publisher
-[[deprecated("Use create_subscription(rclcpp::node_interfaces..., rclcpp::QoS, ...) instead")]]
-POINT_CLOUD_TRANSPORT_PUBLIC
-Publisher create_publisher(
-  std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface>> & node_interfaces,
-  const std::string & base_topic,
-  rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
-  const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions());
-
-/// \brief Advertise every available transport on pointcloud topics, free function version.
-/// \param node_interfaces the ROS node interfaces required for core node functionality, including
-///    NodeBaseInterface, NodeParametersInterface, NodeTopicsInterface, and NodeLoggingInterface.
-/// \param base_topic The base topic for the publisher
-/// \param custom_qos The QoS profile to use for the underlying publisher(s)
-/// \param options The publisher options to use for the underlying publisher(s)
-/// \return The advertised publisher
-POINT_CLOUD_TRANSPORT_PUBLIC
-Publisher create_publisher(
-  rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-  const std::string & base_topic,
-  rclcpp::QoS custom_qos,
   const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions());
 
 /// \brief Subscribe to a pointcloud transport topic, free function version.
@@ -156,7 +118,6 @@ Publisher create_publisher(
 /// \param custom_qos The QoS profile to use for the underlying publisher
 /// \param options The publisher options to use for the underlying publisher
 /// \return The subscriber
-[[deprecated("Use create_subscription(rclcpp::node_interfaces...) instead")]]
 POINT_CLOUD_TRANSPORT_PUBLIC
 Subscriber create_subscription(
   std::shared_ptr<rclcpp::Node> node,
@@ -166,68 +127,14 @@ Subscriber create_subscription(
   rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
   rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions());
 
-/// \brief Subscribe to a pointcloud transport topic, free function version.
-/// \param node_interfaces the ROS node interfaces required for core node functionality, including
-///    NodeBaseInterface, NodeParametersInterface, NodeTopicsInterface, and NodeLoggingInterface.
-/// \param base_topic The base topic for the sbuscription
-/// \param callback The callback to invoke on receipt of a message
-/// \param transport The transport to use for the subscription
-/// \param custom_qos The QoS profile to use for the underlying publisher
-/// \param options The publisher options to use for the underlying publisher
-/// \return The subscriber
-[[deprecated("Use create_subscription(rclcpp::node_interfaces..., rclcpp::QoS, ...) instead")]]
-POINT_CLOUD_TRANSPORT_PUBLIC
-Subscriber create_subscription(
-  std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface>> & node_interfaces,
-  const std::string & base_topic,
-  const Subscriber::Callback & callback,
-  const std::string & transport,
-  rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
-  rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions());
-
-/// \brief Subscribe to a pointcloud transport topic, free function version.
-/// \param node_interfaces the ROS node interfaces required for core node functionality, including
-///    NodeBaseInterface, NodeParametersInterface, NodeTopicsInterface, and NodeLoggingInterface.
-/// \param base_topic The base topic for the sbuscription
-/// \param callback The callback to invoke on receipt of a message
-/// \param transport The transport to use for the subscription
-/// \param custom_qos The QoS profile to use for the underlying publisher
-/// \param options The publisher options to use for the underlying publisher
-/// \return The subscriber
-POINT_CLOUD_TRANSPORT_PUBLIC
-Subscriber create_subscription(
-  rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-  const std::string & base_topic,
-  const Subscriber::Callback & callback,
-  const std::string & transport,
-  rclcpp::QoS custom_qos,
-  rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions());
-
 class PointCloudTransport : public PointCloudTransportLoader
 {
   using VoidPtr = std::shared_ptr<void>;
 
 public:
   //! Constructor
-  [[deprecated("Use PointCloudTransport(rclcpp::node_interfaces...) instead")]]
   POINT_CLOUD_TRANSPORT_PUBLIC
   explicit PointCloudTransport(rclcpp::Node::SharedPtr node);
-
-  POINT_CLOUD_TRANSPORT_PUBLIC
-  explicit PointCloudTransport(
-    rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces);
 
   POINT_CLOUD_TRANSPORT_PUBLIC
   ~PointCloudTransport() override = default;
@@ -237,7 +144,7 @@ public:
   {
     std::string ret;
     if (nullptr == transport_hints) {
-      TransportHints th(node_interfaces_);
+      TransportHints th(node_);
       ret = th.getTransport();
     } else {
       ret = transport_hints->getTransport();
@@ -252,9 +159,9 @@ public:
     uint32_t queue_size)
   {
     rclcpp::PublisherOptions options = rclcpp::PublisherOptions();
-    auto custom_qos = rclcpp::SensorDataQoS();
-    custom_qos.keep_last(queue_size);
-    return Publisher(node_interfaces_, base_topic, pub_loader_, custom_qos, options);
+    rmw_qos_profile_t custom_qos = rmw_qos_profile_sensor_data;
+    custom_qos.depth = queue_size;
+    return Publisher(node_, base_topic, pub_loader_, custom_qos, options);
   }
 
   //! Advertise a PointCloud2 topic, simple version.
@@ -264,29 +171,18 @@ public:
     uint32_t queue_size,
     const rclcpp::PublisherOptions & options)
   {
-    auto custom_qos = rclcpp::SensorDataQoS();
-    custom_qos.keep_last(queue_size);
-    return Publisher(node_interfaces_, base_topic, pub_loader_, custom_qos, options);
+    rmw_qos_profile_t custom_qos = rmw_qos_profile_sensor_data;
+    custom_qos.depth = queue_size;
+    return Publisher(node_, base_topic, pub_loader_, custom_qos, options);
   }
 
-  [[deprecated("Use advertise(..., rclcpp::QoS custom_qos, ...) instead")]]
   POINT_CLOUD_TRANSPORT_PUBLIC
   Publisher advertise(
     const std::string & base_topic,
     rmw_qos_profile_t custom_qos,
     const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions())
   {
-    return Publisher(node_interfaces_, base_topic, pub_loader_,
-        rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
-  }
-
-  POINT_CLOUD_TRANSPORT_PUBLIC
-  Publisher advertise(
-    const std::string & base_topic,
-    rclcpp::QoS custom_qos,
-    const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions())
-  {
-    return Publisher(node_interfaces_, base_topic, pub_loader_, custom_qos, options);
+    return Publisher(node_, base_topic, pub_loader_, custom_qos, options);
   }
 
   // //! Subscribe to a point cloud topic, version for arbitrary std::function object.
@@ -310,7 +206,6 @@ public:
   //  const ros::VoidPtr& tracked_object = {}, bool latch = false);
 
   //! Subscribe to a point cloud topic, version for arbitrary std::function object.
-  [[deprecated("Use subscribe(..., rclcpp::QoS custom_qos, ...) instead")]]
   POINT_CLOUD_TRANSPORT_PUBLIC
   point_cloud_transport::Subscriber subscribe(
     const std::string & base_topic, rmw_qos_profile_t custom_qos,
@@ -321,23 +216,7 @@ public:
   {
     (void)tracked_object;
     return Subscriber(
-      node_interfaces_, base_topic, callback, sub_loader_,
-      getTransportOrDefault(transport_hints),
-        rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
-  }
-
-  //! Subscribe to a point cloud topic, version for arbitrary std::function object.
-  POINT_CLOUD_TRANSPORT_PUBLIC
-  point_cloud_transport::Subscriber subscribe(
-    const std::string & base_topic, rclcpp::QoS custom_qos,
-    const std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &)> & callback,
-    const VoidPtr & tracked_object = {},
-    const point_cloud_transport::TransportHints * transport_hints = nullptr,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    (void)tracked_object;
-    return Subscriber(
-      node_interfaces_, base_topic, callback, sub_loader_,
+      node_, base_topic, callback, sub_loader_,
       getTransportOrDefault(transport_hints), custom_qos, options);
   }
 
@@ -350,29 +229,15 @@ public:
     const point_cloud_transport::TransportHints * transport_hints = nullptr,
     rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
   {
-    rclcpp::QoS custom_qos = rclcpp::SensorDataQoS();
-    custom_qos.keep_last(queue_size);
+    rmw_qos_profile_t custom_qos = rmw_qos_profile_sensor_data;
+    custom_qos.depth = queue_size;
     return subscribe(
       base_topic, custom_qos, callback, tracked_object, transport_hints, options);
   }
 
-  [[deprecated("Use subscribe(..., rclcpp::QoS custom_qos, ...) instead")]]
   POINT_CLOUD_TRANSPORT_PUBLIC
   point_cloud_transport::Subscriber subscribe(
     const std::string & base_topic, rmw_qos_profile_t custom_qos,
-    void (* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &),
-    const point_cloud_transport::TransportHints * transport_hints = nullptr,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    return subscribe(
-      base_topic, rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos),
-      std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &)>(fp),
-      VoidPtr(), transport_hints, options);
-  }
-
-  POINT_CLOUD_TRANSPORT_PUBLIC
-  point_cloud_transport::Subscriber subscribe(
-    const std::string & base_topic, rclcpp::QoS custom_qos,
     void (* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &),
     const point_cloud_transport::TransportHints * transport_hints = nullptr,
     rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
@@ -398,24 +263,8 @@ public:
 
   //! Subscribe to a point cloud topic, version for class member function with bare pointer.
   template<class T>
-  [[deprecated("Use subscribe(..., rclcpp::QoS custom_qos, ...) instead")]]
   point_cloud_transport::Subscriber subscribe(
     const std::string & base_topic, rmw_qos_profile_t custom_qos,
-    void (T::* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &) const, T * obj,
-    const point_cloud_transport::TransportHints * transport_hints = nullptr,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    return subscribe(
-      base_topic, rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos),
-        std::bind(
-        fp,
-        obj, std::placeholders::_1), VoidPtr(), transport_hints, options);
-  }
-
-  //! Subscribe to a point cloud topic, version for class member function with bare pointer.
-  template<class T>
-  point_cloud_transport::Subscriber subscribe(
-    const std::string & base_topic, rclcpp::QoS custom_qos,
     void (T::* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &) const, T * obj,
     const point_cloud_transport::TransportHints * transport_hints = nullptr,
     rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
@@ -441,25 +290,8 @@ public:
 
   //! Subscribe to a point cloud topic, version for class member function with shared_ptr.
   template<class T>
-  [[deprecated("Use subscribe(..., rclcpp::QoS custom_qos, ...) instead")]]
   point_cloud_transport::Subscriber subscribe(
     const std::string & base_topic, rmw_qos_profile_t custom_qos,
-    void (T::* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &) const,
-    const std::shared_ptr<T> & obj,
-    const point_cloud_transport::TransportHints * transport_hints = nullptr,
-    const rclcpp::SubscriptionOptions & options = rclcpp::SubscriptionOptions())
-  {
-    return subscribe(
-      base_topic, rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos),
-        std::bind(
-        fp,
-        obj, std::placeholders::_1), obj, transport_hints, options);
-  }
-
-  //! Subscribe to a point cloud topic, version for class member function with shared_ptr.
-  template<class T>
-  point_cloud_transport::Subscriber subscribe(
-    const std::string & base_topic, rclcpp::QoS custom_qos,
     void (T::* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &) const,
     const std::shared_ptr<T> & obj,
     const point_cloud_transport::TransportHints * transport_hints = nullptr,
@@ -486,11 +318,7 @@ public:
   }
 
 private:
-  rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces_;
+  rclcpp::Node::SharedPtr node_;
 };
 
 }  // namespace point_cloud_transport

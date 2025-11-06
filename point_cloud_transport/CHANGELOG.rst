@@ -2,35 +2,18 @@
 Changelog for package point_cloud_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-5.3.2 (2025-11-06)
+5.1.5 (2025-11-06)
 ------------------
-* Fix duplicate component registration for Republisher (`#142 <https://github.com/ros-perception/point_cloud_transport/issues/142>`_)
-* Removed outdated comment (`#138 <https://github.com/ros-perception/point_cloud_transport/issues/138>`_)
-* Contributors: Alejandro Hernández Cordero, mini-1235
+* Fix duplicate component registration for Republisher (`#142 <https://github.com/ros-perception/point_cloud_transport/issues/142>`_) (`#143 <https://github.com/ros-perception/point_cloud_transport/issues/143>`_)
+* Removed outdated comment (`#138 <https://github.com/ros-perception/point_cloud_transport/issues/138>`_) (`#139 <https://github.com/ros-perception/point_cloud_transport/issues/139>`_)
+* Contributors: mergify[bot]
 
-5.3.1 (2025-10-15)
+5.1.4 (2025-10-15)
 ------------------
-* Use standard unsigned int in place of uint for Windows compatibility (`#134 <https://github.com/ros-perception/point_cloud_transport/issues/134>`_)
-* Contributors: Silvio Traversaro
+* Use standard unsigned int in place of uint for Windows compatibility (backport `#134 <https://github.com/ros-perception/point_cloud_transport/issues/134>`_) (`#135 <https://github.com/ros-perception/point_cloud_transport/issues/135>`_)
+* Contributors: mergify[bot]
 
-5.3.0 (2025-07-25)
-------------------
-* Update subscriber filter (`#126 <https://github.com/ros-perception/point_cloud_transport/issues/126>`_)
-* Simplify NodeInterface API mehotd call (`#129 <https://github.com/ros-perception/point_cloud_transport/issues/129>`_)
-* Fixed QOS override tests (`#128 <https://github.com/ros-perception/point_cloud_transport/issues/128>`_)
-* Contributors: Alejandro Hernández Cordero, ElSayed ElSheikh
-
-5.2.2 (2025-06-27)
-------------------
-* Deprecated rmw_qos_profile_t (`#125 <https://github.com/ros-perception/point_cloud_transport/issues/125>`_)
-* Contributors: Alejandro Hernández Cordero
-
-5.2.1 (2025-06-04)
-------------------
-* Feat/Add LifecycleNode Support (`#109 <https://github.com/ros-perception/point_cloud_transport/issues/109>`_)
-* Contributors: ElSayed ElSheikh
-
-5.2.0 (2025-04-28)
+5.1.3 (2025-05-12)
 ------------------
 
 5.1.2 (2025-04-28)

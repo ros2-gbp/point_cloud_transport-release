@@ -53,13 +53,8 @@ namespace point_cloud_transport
 
 struct Publisher::Impl
 {
-  Impl(
-    rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces)
-  : logger_(node_interfaces.get_node_logging_interface()->get_logger()),
+  explicit Impl(std::shared_ptr<rclcpp::Node> node)
+  : logger_(node->get_logger()),
     unadvertised_(false)
   {
   }
@@ -107,26 +102,20 @@ struct Publisher::Impl
 };
 
 Publisher::Publisher(
-  rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-  const std::string & base_topic,
-  PubLoaderPtr loader, rclcpp::QoS custom_qos,
+  std::shared_ptr<rclcpp::Node> node, const std::string & base_topic,
+  PubLoaderPtr loader, rmw_qos_profile_t custom_qos,
   const rclcpp::PublisherOptions & options)
-: impl_(std::make_shared<Impl>(node_interfaces))
+: impl_(std::make_shared<Impl>(node))
 {
   // Resolve the name explicitly because otherwise the compressed topics don't remap
   // properly (#3652).
   std::string point_cloud_topic = rclcpp::expand_topic_or_service_name(
     base_topic,
-    node_interfaces.get_node_base_interface()->get_name(),
-    node_interfaces.get_node_base_interface()->get_namespace());
+    node->get_name(), node->get_namespace());
   impl_->base_topic_ = point_cloud_topic;
   impl_->loader_ = loader;
 
-  auto ns_len = strlen(node_interfaces.get_node_base_interface()->get_namespace());
+  auto ns_len = node->get_effective_namespace().length();
   std::string param_base_name = point_cloud_topic.substr(ns_len);
   std::replace(param_base_name.begin(), param_base_name.end(), '/', '.');
   if (param_base_name.front() == '.') {
@@ -140,16 +129,15 @@ Publisher::Publisher(
   }
 
   try {
-    whitelist_vec = node_interfaces.get_node_parameters_interface()
-      ->declare_parameter(param_base_name + ".enable_pub_plugins",
-        rclcpp::ParameterValue(all_transport_names)).get<std::vector<std::string>>();
+    whitelist_vec = node->declare_parameter<std::vector<std::string>>(
+      param_base_name + ".enable_pub_plugins", all_transport_names);
   } catch (const rclcpp::exceptions::ParameterAlreadyDeclaredException &) {
     RCLCPP_DEBUG_STREAM(
-      node_interfaces.get_node_logging_interface()
-      ->get_logger(), param_base_name << ".enable_pub_plugins" << " was previously declared");
+      node->get_logger(), param_base_name << ".enable_pub_plugins" << " was previously declared"
+    );
     whitelist_vec =
-      node_interfaces.get_node_parameters_interface()->
-      get_parameter(param_base_name +
+      node->get_parameter(
+      param_base_name +
       ".enable_pub_plugins").get_value<std::vector<std::string>>();
   }
 
@@ -162,7 +150,7 @@ Publisher::Publisher(
     const auto & lookup_name = transport_name + "_pub";
     try {
       auto pub = loader->createUniqueInstance(lookup_name);
-      pub->advertise(node_interfaces, point_cloud_topic, custom_qos, options);
+      pub->advertise(node, point_cloud_topic, custom_qos, options);
       impl_->publishers_.push_back(std::move(pub));
     } catch (const std::runtime_error & e) {
       RCLCPP_ERROR(
@@ -176,20 +164,6 @@ Publisher::Publisher(
             "No plugins found! Does `rospack plugins --attrib=plugin "
             "point_cloud_transport` find any packages?");
   }
-}
-
-Publisher::Publisher(
-  std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface>> node_interfaces,
-  const std::string & base_topic,
-  PubLoaderPtr loader, rmw_qos_profile_t custom_qos,
-  const rclcpp::PublisherOptions & options)
-: Publisher(*node_interfaces, base_topic, loader,
-    rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options)
-{
 }
 
 uint32_t Publisher::getNumSubscribers() const

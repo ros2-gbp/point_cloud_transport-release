@@ -2,28 +2,13 @@
 Changelog for package point_cloud_transport_py
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-5.3.2 (2025-11-06)
+5.1.5 (2025-11-06)
 ------------------
 
-5.3.1 (2025-10-15)
-------------------
-* Use pybind11 from deb or pixi (`#131 <https://github.com/ros-perception/point_cloud_transport/issues/131>`_)
-* Contributors: Alejandro Hernández Cordero
-
-5.3.0 (2025-07-25)
-------------------
-* Simplify NodeInterface API mehotd call (`#129 <https://github.com/ros-perception/point_cloud_transport/issues/129>`_)
-* Contributors: Alejandro Hernández Cordero
-
-5.2.2 (2025-06-27)
+5.1.4 (2025-10-15)
 ------------------
 
-5.2.1 (2025-06-04)
-------------------
-* Feat/Add LifecycleNode Support (`#109 <https://github.com/ros-perception/point_cloud_transport/issues/109>`_)
-* Contributors: ElSayed ElSheikh
-
-5.2.0 (2025-04-28)
+5.1.3 (2025-05-12)
 ------------------
 
 5.1.2 (2025-04-28)

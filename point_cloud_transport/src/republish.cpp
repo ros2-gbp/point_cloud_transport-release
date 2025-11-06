@@ -63,12 +63,6 @@ private:
   point_cloud_transport::Subscriber sub;
   std::shared_ptr<point_cloud_transport::PublisherPlugin> pub;
   std::shared_ptr<point_cloud_transport::Publisher> simple_pub;
-  rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface
-  > node_interfaces_;
 };
 
 Republisher::Republisher(const rclcpp::NodeOptions & options)
@@ -125,9 +119,7 @@ void Republisher::initialize()
       "The 'out_transport' parameter is set to: " << out_transport);
   }
 
-  auto node = this->shared_from_this();
-
-  pct = std::make_shared<point_cloud_transport::PointCloudTransport>(*node);
+  pct = std::make_shared<point_cloud_transport::PointCloudTransport>(this->shared_from_this());
 
   auto qos_override_options = rclcpp::QosOverridingOptions(
     {
@@ -147,7 +139,7 @@ void Republisher::initialize()
       std::make_shared<point_cloud_transport::Publisher>(
       pct->advertise(
         out_topic,
-        rclcpp::SystemDefaultsQoS(),
+        rmw_qos_profile_default,
         pub_options));
 
     RCLCPP_INFO_STREAM(
@@ -174,7 +166,7 @@ void Republisher::initialize()
     auto instance = loader->createUniqueInstance(lookup_name);
     // DO NOT use instance after this line
     this->pub = std::move(instance);
-    pub->advertise(*node, out_topic, rclcpp::SystemDefaultsQoS(), pub_options);
+    pub->advertise(this->shared_from_this(), out_topic, rmw_qos_profile_default, pub_options);
 
     RCLCPP_INFO_STREAM(
       this->get_logger(),

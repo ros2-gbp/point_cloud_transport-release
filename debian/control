@@ -1,0 +1,12 @@
+Source: ros-kilted-point-cloud-transport-py
+Section: misc
+Priority: optional
+Maintainer: Alejandro Hernández <alejandro@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), python3-dev, ros-kilted-ament-cmake-python, ros-kilted-ament-cmake-ros, ros-kilted-pluginlib, ros-kilted-point-cloud-transport, ros-kilted-pybind11-vendor, ros-kilted-rclcpp, ros-kilted-sensor-msgs, ros-kilted-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kilted-point-cloud-transport-py
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-kilted-pluginlib, ros-kilted-point-cloud-transport, ros-kilted-pybind11-vendor, ros-kilted-rclcpp, ros-kilted-rpyutils, ros-kilted-sensor-msgs, ros-kilted-ros-workspace
+Description: Python API for point_cloud_transport

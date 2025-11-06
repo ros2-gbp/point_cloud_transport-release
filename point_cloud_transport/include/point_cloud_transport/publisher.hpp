@@ -32,11 +32,12 @@
 #ifndef POINT_CLOUD_TRANSPORT__PUBLISHER_HPP_
 #define POINT_CLOUD_TRANSPORT__PUBLISHER_HPP_
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include "rclcpp/macros.hpp"
 #include "rclcpp/node.hpp"
+#include "rclcpp/node_interfaces/node_interfaces.hpp"
 
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
@@ -55,12 +56,45 @@ public:
   POINT_CLOUD_TRANSPORT_PUBLIC
   Publisher() = default;
 
+  [[deprecated("Use Publisher(rclcpp::node_interfaces...) instead")]]
   POINT_CLOUD_TRANSPORT_PUBLIC
   Publisher(
     std::shared_ptr<rclcpp::Node> node,
     const std::string & base_topic,
     PubLoaderPtr loader,
     rmw_qos_profile_t custom_qos,
+    const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions())
+  : Publisher(
+      *node,
+      base_topic,
+      loader,
+      rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos),
+      options)
+  {}
+
+  [[deprecated("Use Publisher(rclcpp::node_interfaces, ..., rclcpp::QoS custom_qos,...) instead")]]
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  Publisher(
+    std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeBaseInterface,
+      rclcpp::node_interfaces::NodeParametersInterface,
+      rclcpp::node_interfaces::NodeTopicsInterface,
+      rclcpp::node_interfaces::NodeLoggingInterface>> node_interfaces,
+    const std::string & base_topic,
+    PubLoaderPtr loader,
+    rmw_qos_profile_t custom_qos,
+    const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions());
+
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  Publisher(
+    rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeBaseInterface,
+      rclcpp::node_interfaces::NodeParametersInterface,
+      rclcpp::node_interfaces::NodeTopicsInterface,
+      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
+    const std::string & base_topic,
+    PubLoaderPtr loader,
+    rclcpp::QoS custom_qos,
     const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions());
 
   //! get total number of subscribers to all advertised topics.

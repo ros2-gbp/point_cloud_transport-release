@@ -42,13 +42,35 @@
 #include "point_cloud_transport/point_cloud_transport.hpp"
 #include "point_cloud_transport/publisher.hpp"
 #include "point_cloud_transport/publisher_plugin.hpp"
-#include "point_cloud_transport/republish.hpp"
 #include "point_cloud_transport/subscriber.hpp"
 
 using namespace std::chrono_literals;
 
 namespace point_cloud_transport
 {
+class Republisher : public rclcpp::Node
+{
+public:
+  //! Constructor
+  explicit Republisher(const rclcpp::NodeOptions & options);
+
+private:
+  void initialize();
+
+  std::shared_ptr<point_cloud_transport::PointCloudTransport> pct;
+  rclcpp::TimerBase::SharedPtr timer_;
+  bool initialized_{false};
+  point_cloud_transport::Subscriber sub;
+  std::shared_ptr<point_cloud_transport::PublisherPlugin> pub;
+  std::shared_ptr<point_cloud_transport::Publisher> simple_pub;
+  rclcpp::node_interfaces::NodeInterfaces<
+    rclcpp::node_interfaces::NodeBaseInterface,
+    rclcpp::node_interfaces::NodeParametersInterface,
+    rclcpp::node_interfaces::NodeTopicsInterface,
+    rclcpp::node_interfaces::NodeLoggingInterface
+  > node_interfaces_;
+};
+
 Republisher::Republisher(const rclcpp::NodeOptions & options)
 : Node("point_cloud_republisher", options)
 {
@@ -103,7 +125,21 @@ void Republisher::initialize()
       "The 'out_transport' parameter is set to: " << out_transport);
   }
 
-  pct = std::make_shared<point_cloud_transport::PointCloudTransport>(this->shared_from_this());
+  auto node = this->shared_from_this();
+
+  pct = std::make_shared<point_cloud_transport::PointCloudTransport>(*node);
+
+  auto qos_override_options = rclcpp::QosOverridingOptions(
+    {
+      rclcpp::QosPolicyKind::Depth,
+      rclcpp::QosPolicyKind::Durability,
+      rclcpp::QosPolicyKind::History,
+      rclcpp::QosPolicyKind::Reliability,
+    });
+  rclcpp::SubscriptionOptions sub_options;
+  rclcpp::PublisherOptions pub_options;
+  pub_options.qos_overriding_options = qos_override_options;
+  sub_options.qos_overriding_options = qos_override_options;
 
   if (out_transport.empty()) {
     // Use all available transports for output
@@ -111,7 +147,8 @@ void Republisher::initialize()
       std::make_shared<point_cloud_transport::Publisher>(
       pct->advertise(
         out_topic,
-        rmw_qos_profile_default));
+        rclcpp::SystemDefaultsQoS(),
+        pub_options));
 
     RCLCPP_INFO_STREAM(
       this->get_logger(),
@@ -126,7 +163,7 @@ void Republisher::initialize()
     const point_cloud_transport::TransportHints hint(in_transport);
     this->sub = pct->subscribe(
       in_topic, static_cast<uint32_t>(1),
-      pub_mem_fn, this->simple_pub, &hint);
+      pub_mem_fn, this->simple_pub, &hint, sub_options);
   } else {
     // Load transport plugin
     typedef point_cloud_transport::PublisherPlugin Plugin;
@@ -137,7 +174,7 @@ void Republisher::initialize()
     auto instance = loader->createUniqueInstance(lookup_name);
     // DO NOT use instance after this line
     this->pub = std::move(instance);
-    pub->advertise(this->shared_from_this(), out_topic);
+    pub->advertise(*node, out_topic, rclcpp::SystemDefaultsQoS(), pub_options);
 
     RCLCPP_INFO_STREAM(
       this->get_logger(),
@@ -147,14 +184,14 @@ void Republisher::initialize()
     typedef void (point_cloud_transport::PublisherPlugin::* PublishMemFn)(
       const sensor_msgs::msg::
       PointCloud2::ConstSharedPtr &) const;
-    PublishMemFn pub_mem_fn = &point_cloud_transport::PublisherPlugin::publish;
+    PublishMemFn pub_mem_fn = &point_cloud_transport::PublisherPlugin::publishPtr;
 
     RCLCPP_INFO(this->get_logger(), "Loading %s subscriber", in_topic.c_str());
 
     const point_cloud_transport::TransportHints hint(in_transport);
     this->sub = pct->subscribe(
       in_topic, static_cast<uint32_t>(1),
-      pub_mem_fn, pub, &hint);
+      pub_mem_fn, pub, &hint, sub_options);
   }
   RCLCPP_INFO_STREAM(
     this->get_logger(),

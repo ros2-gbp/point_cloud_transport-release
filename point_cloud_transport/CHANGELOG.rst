@@ -2,69 +2,40 @@
 Changelog for package point_cloud_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-5.1.5 (2025-11-06)
+4.0.6 (2025-11-06)
 ------------------
-* Fix duplicate component registration for Republisher (`#142 <https://github.com/ros-perception/point_cloud_transport/issues/142>`_) (`#143 <https://github.com/ros-perception/point_cloud_transport/issues/143>`_)
-* Removed outdated comment (`#138 <https://github.com/ros-perception/point_cloud_transport/issues/138>`_) (`#139 <https://github.com/ros-perception/point_cloud_transport/issues/139>`_)
+* Fix duplicate component registration for Republisher (`#142 <https://github.com/ros-perception/point_cloud_transport/issues/142>`_) (`#144 <https://github.com/ros-perception/point_cloud_transport/issues/144>`_)
+* Removed outdated comment (`#138 <https://github.com/ros-perception/point_cloud_transport/issues/138>`_) (`#140 <https://github.com/ros-perception/point_cloud_transport/issues/140>`_)
 * Contributors: mergify[bot]
 
-5.1.4 (2025-10-15)
+4.0.5 (2025-10-15)
 ------------------
-* Use standard unsigned int in place of uint for Windows compatibility (backport `#134 <https://github.com/ros-perception/point_cloud_transport/issues/134>`_) (`#135 <https://github.com/ros-perception/point_cloud_transport/issues/135>`_)
+* Use standard unsigned int in place of uint for Windows compatibility (backport `#134 <https://github.com/ros-perception/point_cloud_transport/issues/134>`_) (`#136 <https://github.com/ros-perception/point_cloud_transport/issues/136>`_)
 * Contributors: mergify[bot]
 
-5.1.3 (2025-05-12)
+4.0.4 (2025-04-02)
+------------------
+* fix: add `rclcpp::shutdown` (`#110 <https://github.com/ros-perception/point_cloud_transport/issues/110>`_) (`#111 <https://github.com/ros-perception/point_cloud_transport/issues/111>`_)
+  (cherry picked from commit 40fec8f3e30b2ed68f6f5ad4915b098cece4c68a)
+  Co-authored-by: Yuyuan Yuan <az6980522@gmail.com>
+* Contributors: mergify[bot]
+
+4.0.3 (2024-12-18)
 ------------------
 
-5.1.2 (2025-04-28)
+4.0.2 (2024-06-27)
 ------------------
-* Add `rclcpp::shutdown` (`#110 <https://github.com/ros-perception/point_cloud_transport/issues/110>`_)
-* Contributors: Yuyuan Yuan
+* Stop using ament_target_dependencies. (`#86 <https://github.com/ros-perception/point_cloud_transport/issues/86>`_) (`#87 <https://github.com/ros-perception/point_cloud_transport/issues/87>`_)
+  Co-authored-by: Chris Lalancette <clalancette@gmail.com>
 
-5.1.1 (2024-11-25)
+4.0.1 (2024-05-24)
 ------------------
-
-5.1.0 (2024-11-20)
-------------------
-
-5.0.4 (2024-10-03)
-------------------
-
-5.0.3 (2024-07-19)
-------------------
-* Updated deprecated message filter headers (`#94 <https://github.com/ros-perception/point_cloud_transport/issues/94>`_)
-* Contributors: Alejandro Hernández Cordero
-
-5.0.2 (2024-06-17)
-------------------
-
-5.0.1 (2024-06-14)
-------------------
-* Removed warning (`#89 <https://github.com/ros-perception/point_cloud_transport/issues/89>`_)
-* republisher: qos override pub and sub (`#88 <https://github.com/ros-perception/point_cloud_transport/issues/88>`_)
-* Stop using ament_target_dependencies. (`#86 <https://github.com/ros-perception/point_cloud_transport/issues/86>`_)
-  We are slowly moving away from its use, so stop using it
-  here.  While we are in here, notice some things that makes
-  this easier:
-  1. pluginlib is absolutely a public dependency of this package.
-  Because of that, we can just rely on the PUBLIC export of it,
-  and we don't need to link it into every test.  But that also means
-  we don't need some of the forward-declarations that were in
-  loader_fwds.hpp, as we can just get those through the header file.
-  2. republish.hpp doesn't really need to exist at all.  That's
-  because it is only a header file, but the implementation is in
-  an executable.  Thus, no downstream could ever use it.  So just
-  remove the file and put the declaration straight into the cpp file.
-* Contributors: Alejandro Hernández Cordero, Chris Lalancette
-
-5.0.0 (2024-05-13)
-------------------
-* [rolling] Get user specified parameters at startup (`#80 <https://github.com/ros-perception/point_cloud_transport//issues/80>`_)
+* [rolling] Get user specified parameters at startup (`#80 <https://github.com/ros-perception/point_cloud_transport/issues/80>`_) (`#82 <https://github.com/ros-perception/point_cloud_transport/issues/82>`_)
   Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
-* Contributors: john-maidbot
-
-4.1.0 (2024-04-30)
-------------------
+  (cherry picked from commit 90c603a1e8fb56c3203ff6870e4f2205c37e59b4)
+  Co-authored-by: john-maidbot <78750993+john-maidbot@users.noreply.github.com>
+  Co-authored-by: Alejandro Hernández Cordero <ahcorde@gmail.com>
+* Contributors: mergify[bot]
 
 4.0.0 (2024-03-29)
 ------------------

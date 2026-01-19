@@ -1,7 +1,7 @@
 <package format="3">
   <name>point_cloud_transport_py</name>
 
-  <version>5.3.3</version>
+  <version>5.1.6</version>
 
   <description>Python API for point_cloud_transport</description>
 
@@ -21,7 +21,7 @@
   <build_depend>python3-dev</build_depend>
 
   <depend>point_cloud_transport</depend>
-  <depend>pybind11-dev</depend>
+  <depend>pybind11_vendor</depend>
   <depend>pluginlib</depend>
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>

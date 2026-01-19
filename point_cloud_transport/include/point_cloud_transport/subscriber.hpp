@@ -71,6 +71,7 @@ public:
   POINT_CLOUD_TRANSPORT_PUBLIC
   Subscriber() = default;
 
+  [[deprecated("Use Subscriber(rclcpp::node_interfaces...) instead")]]
   POINT_CLOUD_TRANSPORT_PUBLIC
   Subscriber(
     std::shared_ptr<rclcpp::Node> node,
@@ -79,6 +80,45 @@ public:
     SubLoaderPtr loader,
     const std::string & transport,
     rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
+    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
+  : Subscriber(
+      *node,
+      base_topic,
+      callback,
+      loader,
+      transport,
+      rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos),
+      options)
+  {
+  }
+
+  [[deprecated("Use Subscriber(rclcpp::node_interfaces, ..., rclcpp::QoS, ...) instead")]]
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  Subscriber(
+    std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeBaseInterface,
+      rclcpp::node_interfaces::NodeParametersInterface,
+      rclcpp::node_interfaces::NodeTopicsInterface,
+      rclcpp::node_interfaces::NodeLoggingInterface>> node_interfaces,
+    const std::string & base_topic,
+    const Callback & callback,
+    SubLoaderPtr loader,
+    const std::string & transport,
+    rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
+    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions());
+
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  Subscriber(
+    rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeBaseInterface,
+      rclcpp::node_interfaces::NodeParametersInterface,
+      rclcpp::node_interfaces::NodeTopicsInterface,
+      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
+    const std::string & base_topic,
+    const Callback & callback,
+    SubLoaderPtr loader,
+    const std::string & transport,
+    rclcpp::QoS custom_qos,
     rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions());
 
   ///
@@ -101,6 +141,10 @@ public:
   //! Unsubscribe the callback associated with this Subscriber.
   POINT_CLOUD_TRANSPORT_PUBLIC
   void shutdown();
+
+  //! Get the underlying ROS subscription handle.
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  rclcpp::SubscriptionBase::SharedPtr getSubscription() const;
 
   operator void *() const;
 

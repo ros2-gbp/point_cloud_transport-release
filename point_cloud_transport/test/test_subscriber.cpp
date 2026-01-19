@@ -33,6 +33,8 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include <sensor_msgs/msg/point_cloud2.hpp>
+
 #include "point_cloud_transport/point_cloud_transport.hpp"
 
 class TestSubscriber : public ::testing::Test
@@ -46,6 +48,13 @@ protected:
   rclcpp::Node::SharedPtr node_;
 };
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 TEST_F(TestSubscriber, construction_and_destruction)
 {
   std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & msg)> fcn =
@@ -65,6 +74,37 @@ TEST_F(TestSubscriber, shutdown)
     [](const auto & msg) {(void)msg;};
 
   auto sub = point_cloud_transport::create_subscription(node_, "pointcloud", fcn, "raw");
+  EXPECT_EQ(node_->get_node_graph_interface()->count_subscribers("pointcloud"), 1u);
+  sub.shutdown();
+  EXPECT_EQ(node_->get_node_graph_interface()->count_subscribers("pointcloud"), 0u);
+}
+#ifdef _MSC_VER
+#pragma warning(pop)
+#else
+#pragma GCC diagnostic pop
+#endif
+
+TEST_F(TestSubscriber, construction_and_destruction_ni_api)
+{
+  std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & msg)> fcn =
+    [](const auto & msg) {
+      (void)msg;
+    };
+
+  auto sub = point_cloud_transport::create_subscription(*node_, "pointcloud", fcn, "raw",
+    rclcpp::SystemDefaultsQoS());
+
+  rclcpp::executors::SingleThreadedExecutor executor;
+  executor.spin_node_some(node_);
+}
+
+TEST_F(TestSubscriber, shutdown_ni_api)
+{
+  std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & msg)> fcn =
+    [](const auto & msg) {(void)msg;};
+
+  auto sub = point_cloud_transport::create_subscription(*node_, "pointcloud", fcn, "raw",
+    rclcpp::SystemDefaultsQoS());
   EXPECT_EQ(node_->get_node_graph_interface()->count_subscribers("pointcloud"), 1u);
   sub.shutdown();
   EXPECT_EQ(node_->get_node_graph_interface()->count_subscribers("pointcloud"), 0u);

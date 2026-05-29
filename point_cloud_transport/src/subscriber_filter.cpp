@@ -28,24 +28,16 @@
 
 #include "point_cloud_transport/subscriber_filter.hpp"
 
-#include <functional>
 #include <memory>
 #include <string>
 
 namespace point_cloud_transport
 {
 SubscriberFilter::SubscriberFilter(
-  rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-  const std::string & base_topic,
-  const std::string & transport,
-  rclcpp::QoS custom_qos,
-  rclcpp::SubscriptionOptions options)
+  std::shared_ptr<rclcpp::Node> node, const std::string & base_topic,
+  const std::string & transport)
 {
-  subscribe(node_interfaces, base_topic, transport, custom_qos, options);
+  subscribe(node, base_topic, transport);
 }
 
 SubscriberFilter::SubscriberFilter()
@@ -64,62 +56,11 @@ void SubscriberFilter::subscribe(
   rmw_qos_profile_t custom_qos,
   rclcpp::SubscriptionOptions options)
 {
-  subscribe(*node, base_topic, transport,
-    rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
-}
-
-void SubscriberFilter::subscribe(
-  std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface>> node_interfaces,
-  const std::string & base_topic,
-  const std::string & transport,
-  rmw_qos_profile_t custom_qos,
-  rclcpp::SubscriptionOptions options)
-{
-  subscribe(*node_interfaces, base_topic, transport,
-    rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
-}
-
-void SubscriberFilter::subscribe(
-  rclcpp::node_interfaces::NodeInterfaces<
-    rclcpp::node_interfaces::NodeBaseInterface,
-    rclcpp::node_interfaces::NodeParametersInterface,
-    rclcpp::node_interfaces::NodeTopicsInterface,
-    rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-  const std::string & base_topic,
-  const std::string & transport,
-  rclcpp::QoS custom_qos,
-  rclcpp::SubscriptionOptions options)
-{
   unsubscribe();
   sub_ = point_cloud_transport::create_subscription(
-    node_interfaces, base_topic,
+    node, base_topic,
     std::bind(&SubscriberFilter::cb, this, std::placeholders::_1),
     transport, custom_qos, options);
-  node_interfaces_ = node_interfaces;
-  topic_ = base_topic;
-  transport_ = transport;
-  qos_ = custom_qos;
-  options_ = options;
-}
-
-void SubscriberFilter::subscribe()
-{
-  unsubscribe();
-  if (!topic_.empty()) {
-    sub_ = point_cloud_transport::create_subscription(
-      node_interfaces_, topic_,
-      std::bind(&SubscriberFilter::cb, this, std::placeholders::_1),
-      transport_, qos_, options_);
-  } else {
-    RCLCPP_ERROR(
-      node_interfaces_.get_node_logging_interface()->get_logger(),
-      "Cannot re-subscribe: the subscriber filter must be initialized first."
-    );
-  }
 }
 
 void SubscriberFilter::unsubscribe()
@@ -129,7 +70,7 @@ void SubscriberFilter::unsubscribe()
 
 std::string SubscriberFilter::getTopic() const
 {
-  return this->topic_;
+  return sub_.getTopic();
 }
 
 uint32_t SubscriberFilter::getNumPublishers() const
@@ -139,7 +80,7 @@ uint32_t SubscriberFilter::getNumPublishers() const
 
 std::string SubscriberFilter::getTransport() const
 {
-  return this->transport_;
+  return sub_.getTransport();
 }
 
 const Subscriber & SubscriberFilter::getSubscriber() const

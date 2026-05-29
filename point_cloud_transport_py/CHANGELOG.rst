@@ -2,48 +2,21 @@
 Changelog for package point_cloud_transport_py
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-5.4.2 (2026-05-29)
+5.1.7 (2026-05-29)
 ------------------
-* Cleanups headers and avoid use std::cout (`#158 <https://github.com/ros-perception/point_cloud_transport/issues/158>`_) (`#164 <https://github.com/ros-perception/point_cloud_transport/issues/164>`_)
+* Cleanups headers and avoid use std::cout (backport `#158 <https://github.com/ros-perception/point_cloud_transport/issues/158>`_) (`#165 <https://github.com/ros-perception/point_cloud_transport/issues/165>`_)
 * Contributors: mergify[bot]
 
-5.4.1 (2026-04-30)
+5.1.6 (2026-01-19)
 ------------------
 
-5.4.0 (2026-04-08)
+5.1.5 (2025-11-06)
 ------------------
 
-5.3.4 (2026-03-26)
-------------------
-* Use new aggregate rosidl target instead of _TARGETS (`#153 <https://github.com/ros-perception/point_cloud_transport/issues/153>`_)
-* Python improvements (`#151 <https://github.com/ros-perception/point_cloud_transport/issues/151>`_)
-* Contributors: Alejandro Hernández Cordero, Alexis Tsogias
-
-5.3.3 (2026-01-19)
+5.1.4 (2025-10-15)
 ------------------
 
-5.3.2 (2025-11-06)
-------------------
-
-5.3.1 (2025-10-15)
-------------------
-* Use pybind11 from deb or pixi (`#131 <https://github.com/ros-perception/point_cloud_transport/issues/131>`_)
-* Contributors: Alejandro Hernández Cordero
-
-5.3.0 (2025-07-25)
-------------------
-* Simplify NodeInterface API mehotd call (`#129 <https://github.com/ros-perception/point_cloud_transport/issues/129>`_)
-* Contributors: Alejandro Hernández Cordero
-
-5.2.2 (2025-06-27)
-------------------
-
-5.2.1 (2025-06-04)
-------------------
-* Feat/Add LifecycleNode Support (`#109 <https://github.com/ros-perception/point_cloud_transport/issues/109>`_)
-* Contributors: ElSayed ElSheikh
-
-5.2.0 (2025-04-28)
+5.1.3 (2025-05-12)
 ------------------
 
 5.1.2 (2025-04-28)

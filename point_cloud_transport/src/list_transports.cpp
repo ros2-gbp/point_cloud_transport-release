@@ -55,10 +55,8 @@ struct TransportDesc
   std::string package_name;
   std::string pub_name;
   PluginStatus pub_status;
-  std::string pub_data_type;
   std::string sub_name;
   PluginStatus sub_status;
-  std::string sub_data_type;
 };
 
 int main(int /*argc*/, char ** /*argv*/)
@@ -81,7 +79,6 @@ int main(int /*argc*/, char ** /*argv*/)
     try {
       auto pub = pub_loader.createUniqueInstance(lookup_name);
       transports[transport_name].pub_status = SUCCESS;
-      transports[transport_name].pub_data_type = pub->getDataType();
     } catch (const pluginlib::LibraryLoadException & e) {
       transports[transport_name].pub_status = LIB_LOAD_FAILURE;
       std::cout << "LibraryLoadException: " << e.what() << std::endl;
@@ -98,7 +95,6 @@ int main(int /*argc*/, char ** /*argv*/)
     try {
       auto sub = sub_loader.createUniqueInstance(lookup_name);
       transports[transport_name].sub_status = SUCCESS;
-      transports[transport_name].sub_data_type = sub->getDataType();
     } catch (const pluginlib::LibraryLoadException & e) {
       transports[transport_name].sub_status = LIB_LOAD_FAILURE;
       std::cout << "LibraryLoadException: " << e.what() << std::endl;
@@ -143,20 +139,14 @@ int main(int /*argc*/, char ** /*argv*/)
     if (td.pub_status == DOES_NOT_EXIST) {
       std::cout << " - No publisher provided" << std::endl;
     } else {
-      std::cout << " - Publisher";
-      if (!td.pub_data_type.empty()) {
-        std::cout << " (" << td.pub_data_type << ")";
-      }
-      std::cout << ": " << pub_loader.getClassDescription(td.pub_name) << "\n";
+      std::cout << " - Publisher: " << pub_loader.getClassDescription(td.pub_name).c_str()
+                << std::endl;
     }
     if (td.sub_status == DOES_NOT_EXIST) {
       std::cout << " - No subscriber provided" << std::endl;
     } else {
-      std::cout << " - Subscriber";
-      if (!td.sub_data_type.empty()) {
-        std::cout << " (" << td.sub_data_type << ")";
-      }
-      std::cout << ": " << pub_loader.getClassDescription(td.sub_name) << "\n";
+      std::cout << " - Subscriber: " << sub_loader.getClassDescription(td.sub_name).c_str()
+                << std::endl;
     }
   }
 

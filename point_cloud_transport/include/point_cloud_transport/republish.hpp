@@ -1,4 +1,6 @@
-// Copyright 2024 Open Source Robotics Foundation, Inc.
+// Copyright (c) 2023, Czech Technical University in Prague
+// Copyright (c) 2019, paplhjak
+// Copyright (c) 2009, Willow Garage, Inc.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -25,66 +27,40 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
+//
 
-#include "point_cloud_transport/subscriber_filter.hpp"
+#ifndef POINT_CLOUD_TRANSPORT__REPUBLISH_HPP_
+#define POINT_CLOUD_TRANSPORT__REPUBLISH_HPP_
 
 #include <memory>
-#include <string>
+
+#include "point_cloud_transport/visibility_control.hpp"
+
+#include <point_cloud_transport/point_cloud_transport.hpp>
+
+#include <rclcpp/node.hpp>
 
 namespace point_cloud_transport
 {
-SubscriberFilter::SubscriberFilter(
-  std::shared_ptr<rclcpp::Node> node, const std::string & base_topic,
-  const std::string & transport)
-{
-  subscribe(node, base_topic, transport);
-}
 
-SubscriberFilter::SubscriberFilter()
+class Republisher : public rclcpp::Node
 {
-}
+public:
+  //! Constructor
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  explicit Republisher(const rclcpp::NodeOptions & options);
 
-SubscriberFilter::~SubscriberFilter()
-{
-  unsubscribe();
-}
+private:
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  void initialize();
 
-void SubscriberFilter::subscribe(
-  std::shared_ptr<rclcpp::Node> node,
-  const std::string & base_topic,
-  const std::string & transport,
-  rmw_qos_profile_t custom_qos,
-  rclcpp::SubscriptionOptions options)
-{
-  unsubscribe();
-  sub_ = point_cloud_transport::create_subscription(
-    node, base_topic,
-    std::bind(&SubscriberFilter::cb, this, std::placeholders::_1),
-    transport, custom_qos, options);
-}
+  std::shared_ptr<point_cloud_transport::PointCloudTransport> pct;
+  rclcpp::TimerBase::SharedPtr timer_;
+  bool initialized_{false};
+  point_cloud_transport::Subscriber sub;
+  std::shared_ptr<point_cloud_transport::PublisherPlugin> pub;
+  std::shared_ptr<point_cloud_transport::Publisher> simple_pub;
+};
 
-void SubscriberFilter::unsubscribe()
-{
-  sub_.shutdown();
-}
-
-std::string SubscriberFilter::getTopic() const
-{
-  return sub_.getTopic();
-}
-
-uint32_t SubscriberFilter::getNumPublishers() const
-{
-  return sub_.getNumPublishers();
-}
-
-std::string SubscriberFilter::getTransport() const
-{
-  return sub_.getTransport();
-}
-
-const Subscriber & SubscriberFilter::getSubscriber() const
-{
-  return sub_;
-}
 }  // namespace point_cloud_transport
+#endif  // POINT_CLOUD_TRANSPORT__REPUBLISH_HPP_

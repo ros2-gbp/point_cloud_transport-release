@@ -1,3 +1,28 @@
+## point_cloud_transport (rolling) - 6.0.2-1
+
+The packages in the `point_cloud_transport` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --rosdistro rolling --track rolling point_cloud_transport` on `Fri, 26 Jun 2026 15:56:51 -0000`
+
+These packages were released:
+- `point_cloud_transport`
+- `point_cloud_transport_py`
+
+Version of package(s) in repository `point_cloud_transport`:
+
+- upstream repository: https://github.com/ros-perception/point_cloud_transport
+- release repository: https://github.com/ros2-gbp/point_cloud_transport-release.git
+- rosdistro version: `6.0.1-1`
+- old version: `6.0.1-2`
+- new version: `6.0.2-1`
+
+Versions of tools used:
+
+- bloom version: `0.14.3`
+- catkin_pkg version: `1.1.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## point_cloud_transport (rolling) - 6.0.1-2
 
 The packages in the `point_cloud_transport` repository were released into the `rolling` distro by running `/usr/bin/bloom-release --rosdistro rolling --track rolling point_cloud_transport` on `Fri, 26 Jun 2026 15:54:40 -0000`

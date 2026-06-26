@@ -36,14 +36,14 @@
 #include <memory>
 #include <string>
 
-#include "rclcpp/node.hpp"
+#include <rclcpp/node.hpp>
 
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 #include <point_cloud_transport/loader_fwds.hpp>
 #include <point_cloud_transport/transport_hints.hpp>
 
-#include "point_cloud_transport/visibility_control.hpp"
+#include <point_cloud_transport/visibility_control.hpp>
 
 namespace point_cloud_transport
 {
@@ -66,19 +66,23 @@ namespace point_cloud_transport
 class Subscriber
 {
 public:
-  typedef std::function<void (const sensor_msgs::msg::PointCloud2::ConstSharedPtr &)> Callback;
+  using Callback = std::function<void (const sensor_msgs::msg::PointCloud2::ConstSharedPtr &)>;
 
   POINT_CLOUD_TRANSPORT_PUBLIC
   Subscriber() = default;
 
   POINT_CLOUD_TRANSPORT_PUBLIC
   Subscriber(
-    std::shared_ptr<rclcpp::Node> node,
+    rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeBaseInterface,
+      rclcpp::node_interfaces::NodeParametersInterface,
+      rclcpp::node_interfaces::NodeTopicsInterface,
+      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
     const std::string & base_topic,
     const Callback & callback,
     SubLoaderPtr loader,
     const std::string & transport,
-    rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
+    rclcpp::QoS custom_qos,
     rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions());
 
   ///

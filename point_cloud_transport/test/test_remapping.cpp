@@ -62,7 +62,7 @@ protected:
   rclcpp::Node::SharedPtr node_remap_;
 };
 
-TEST_F(TestPublisher, RemappedPublisher) {
+TEST_F(TestPublisher, RemappedPublisher_ni_api) {
   const size_t max_retries = 3;
   const size_t max_loops = 200;
   const std::chrono::milliseconds sleep_per_loop = std::chrono::milliseconds(10);
@@ -73,14 +73,15 @@ TEST_F(TestPublisher, RemappedPublisher) {
   // Subscribe
   bool received{false};
   auto sub = point_cloud_transport::create_subscription(
-    node_remap_, "old_topic",
+    *node_remap_, "old_topic",
     [&received](const sensor_msgs::msg::PointCloud2::ConstSharedPtr & msg) {
       (void)msg;
       received = true;
-    }, "raw");
+    }, "raw", rclcpp::SystemDefaultsQoS());
 
   // Publish
-  auto pub = point_cloud_transport::create_publisher(node_, "new_topic");
+  auto pub = point_cloud_transport::create_publisher(*node_, "new_topic",
+    rclcpp::SystemDefaultsQoS());
 
   ASSERT_EQ("/namespace/new_topic", sub.getTopic());
   ASSERT_EQ("/namespace/new_topic", pub.getTopic());

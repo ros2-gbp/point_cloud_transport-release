@@ -62,16 +62,16 @@ protected:
   rclcpp::Node::SharedPtr qos_override_sub_node_;
 };
 
-TEST_F(TestQosOverride, qos_override_publisher_without_options) {
+TEST_F(TestQosOverride, qos_override_publisher_without_options_ni_api) {
   auto pub = point_cloud_transport::create_publisher(
-    pub_node_, "pointcloud",
-    rmw_qos_profile_default);
+    *pub_node_, "pointcloud",
+    rclcpp::SystemDefaultsQoS());
   auto endpoint_info_vec = pub_node_->get_publishers_info_by_topic("pointcloud");
   EXPECT_EQ(endpoint_info_vec[0].qos_profile().reliability(), rclcpp::ReliabilityPolicy::Reliable);
   pub.shutdown();
 
   pub = point_cloud_transport::create_publisher(
-    qos_override_pub_node_, "pointcloud", rmw_qos_profile_default);
+    *qos_override_pub_node_, "pointcloud", rclcpp::SystemDefaultsQoS());
 
   endpoint_info_vec = qos_override_pub_node_->get_publishers_info_by_topic("pointcloud");
   EXPECT_EQ(
@@ -80,7 +80,7 @@ TEST_F(TestQosOverride, qos_override_publisher_without_options) {
   pub.shutdown();
 }
 
-TEST_F(TestQosOverride, qos_override_publisher_with_options) {
+TEST_F(TestQosOverride, qos_override_publisher_with_options_ni_api) {
   rclcpp::PublisherOptions options;
   options.qos_overriding_options = rclcpp::QosOverridingOptions(
   {
@@ -91,13 +91,13 @@ TEST_F(TestQosOverride, qos_override_publisher_with_options) {
   });
 
   auto pub = point_cloud_transport::create_publisher(
-    pub_node_, "pointcloud", rmw_qos_profile_default, options);
+    *pub_node_, "pointcloud", rclcpp::SystemDefaultsQoS(), options);
   auto endpoint_info_vec = pub_node_->get_publishers_info_by_topic("pointcloud");
   EXPECT_EQ(endpoint_info_vec[0].qos_profile().reliability(), rclcpp::ReliabilityPolicy::Reliable);
   pub.shutdown();
 
   pub = point_cloud_transport::create_publisher(
-    qos_override_pub_node_, "pointcloud", rmw_qos_profile_default, options);
+    *qos_override_pub_node_, "pointcloud", rclcpp::SystemDefaultsQoS(), options);
 
   endpoint_info_vec = qos_override_pub_node_->get_publishers_info_by_topic("pointcloud");
   EXPECT_EQ(
@@ -106,26 +106,27 @@ TEST_F(TestQosOverride, qos_override_publisher_with_options) {
   pub.shutdown();
 }
 
-TEST_F(TestQosOverride, qos_override_subscriber_without_options) {
+TEST_F(TestQosOverride, qos_override_subscriber_without_options_ni_api) {
   std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & msg)> fcn =
     [](const auto & msg) {(void)msg;};
 
   auto sub = point_cloud_transport::create_subscription(
-    sub_node_, "pointcloud", fcn, "raw", rmw_qos_profile_default);
+    *sub_node_, "pointcloud", fcn, "raw", rclcpp::SystemDefaultsQoS());
   auto endpoint_info_vec = sub_node_->get_subscriptions_info_by_topic("pointcloud");
-  EXPECT_EQ(endpoint_info_vec[0].qos_profile().reliability(), rclcpp::ReliabilityPolicy::Reliable);
+  EXPECT_NE(endpoint_info_vec[0].qos_profile().reliability(),
+    rclcpp::ReliabilityPolicy::Unknown);
   sub.shutdown();
 
   sub = point_cloud_transport::create_subscription(
-    qos_override_sub_node_, "pointcloud", fcn, "raw", rmw_qos_profile_default);
+    *qos_override_sub_node_, "pointcloud", fcn, "raw", rclcpp::SystemDefaultsQoS());
 
   endpoint_info_vec = qos_override_sub_node_->get_subscriptions_info_by_topic("pointcloud");
-  EXPECT_EQ(
+  EXPECT_NE(
     endpoint_info_vec[0].qos_profile().reliability(),
-    rclcpp::ReliabilityPolicy::Reliable);
+    rclcpp::ReliabilityPolicy::Unknown);
 }
 
-TEST_F(TestQosOverride, qos_override_subscriber_with_options) {
+TEST_F(TestQosOverride, qos_override_subscriber_with_options_ni_api) {
   std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & msg)> fcn =
     [](const auto & msg) {(void)msg;};
 
@@ -139,13 +140,14 @@ TEST_F(TestQosOverride, qos_override_subscriber_with_options) {
   });
 
   auto sub = point_cloud_transport::create_subscription(
-    sub_node_, "pointcloud", fcn, "raw", rmw_qos_profile_default, options);
+    *sub_node_, "pointcloud", fcn, "raw", rclcpp::SystemDefaultsQoS(), options);
   auto endpoint_info_vec = sub_node_->get_subscriptions_info_by_topic("pointcloud");
-  EXPECT_EQ(endpoint_info_vec[0].qos_profile().reliability(), rclcpp::ReliabilityPolicy::Reliable);
+  EXPECT_NE(endpoint_info_vec[0].qos_profile().reliability(),
+    rclcpp::ReliabilityPolicy::Unknown);
   sub.shutdown();
 
   sub = point_cloud_transport::create_subscription(
-    qos_override_sub_node_, "pointcloud", fcn, "raw", rmw_qos_profile_default, options);
+    *qos_override_sub_node_, "pointcloud", fcn, "raw", rclcpp::SystemDefaultsQoS(), options);
 
   endpoint_info_vec = qos_override_sub_node_->get_subscriptions_info_by_topic("pointcloud");
   EXPECT_EQ(

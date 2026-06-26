@@ -1,7 +1,7 @@
 <package format="3">
   <name>point_cloud_transport</name>
 
-  <version>5.4.3</version>
+  <version>5.1.8</version>
 
   <description>
     Support for transporting PointCloud2 messages in compressed format and plugin interface for implementing additional PointCloud2 transports.
@@ -27,10 +27,6 @@
   <depend>rcpputils</depend>
   <depend>rmw</depend>
   <depend>sensor_msgs</depend>
-
-  <build_depend>tinyxml2</build_depend>
-  
-  <exec_depend>tinyxml2</exec_depend>
 
   <test_depend>ament_lint_common</test_depend>
   <test_depend>ament_lint_auto</test_depend>

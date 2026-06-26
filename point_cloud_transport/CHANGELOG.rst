@@ -2,68 +2,34 @@
 Changelog for package point_cloud_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-5.4.3 (2026-06-26)
+5.1.8 (2026-06-26)
 ------------------
-* Make VoidPtr public in PointCloudTransport class (`#186 <https://github.com/ros-perception/point_cloud_transport/issues/186>`_) (`#187 <https://github.com/ros-perception/point_cloud_transport/issues/187>`_)
+* Make VoidPtr public in PointCloudTransport class (`#186 <https://github.com/ros-perception/point_cloud_transport/issues/186>`_) (`#188 <https://github.com/ros-perception/point_cloud_transport/issues/188>`_)
 * Contributors: mergify[bot]
 
-5.4.2 (2026-05-29)
+5.1.7 (2026-05-29)
 ------------------
-* Added version.h (`#163 <https://github.com/ros-perception/point_cloud_transport/issues/163>`_) (`#169 <https://github.com/ros-perception/point_cloud_transport/issues/169>`_)
-* Cleanups headers and avoid use std::cout (`#158 <https://github.com/ros-perception/point_cloud_transport/issues/158>`_) (`#164 <https://github.com/ros-perception/point_cloud_transport/issues/164>`_)
+* Added version.h (backport `#163 <https://github.com/ros-perception/point_cloud_transport/issues/163>`_) (`#170 <https://github.com/ros-perception/point_cloud_transport/issues/170>`_)
+* Cleanups headers and avoid use std::cout (backport `#158 <https://github.com/ros-perception/point_cloud_transport/issues/158>`_) (`#165 <https://github.com/ros-perception/point_cloud_transport/issues/165>`_)
 * Contributors: mergify[bot]
 
-5.4.1 (2026-04-30)
+5.1.6 (2026-01-19)
 ------------------
-* Fix exit crash on aarch64 by using leaky singleton for global loader (`#157 <https://github.com/ros-perception/point_cloud_transport/issues/157>`_)
-* Contributors: Michael Carroll
-
-5.4.0 (2026-04-08)
-------------------
-* Include message type (`#152 <https://github.com/ros-perception/point_cloud_transport/issues/152>`_)
-* Contributors: Alejandro Hernández Cordero
-
-5.3.4 (2026-03-26)
-------------------
-* Use new aggregate rosidl target instead of _TARGETS (`#153 <https://github.com/ros-perception/point_cloud_transport/issues/153>`_)
-  Co-authored-by: Alexis Tsogias <a.tsogias@cellumation.com>
-* Improvements (`#150 <https://github.com/ros-perception/point_cloud_transport/issues/150>`_)
-* Contributors: Alejandro Hernández Cordero, Alexis Tsogias
-
-5.3.3 (2026-01-19)
-------------------
-* Expose original ROS Publishers and Subscription (`#146 <https://github.com/ros-perception/point_cloud_transport/issues/146>`_) (`#148 <https://github.com/ros-perception/point_cloud_transport/issues/148>`_)
+* Expose original ROS Publishers and Subscription (`#146 <https://github.com/ros-perception/point_cloud_transport/issues/146>`_) (`#147 <https://github.com/ros-perception/point_cloud_transport/issues/147>`_)
 * Contributors: mergify[bot]
 
-5.3.2 (2025-11-06)
+5.1.5 (2025-11-06)
 ------------------
-* Fix duplicate component registration for Republisher (`#142 <https://github.com/ros-perception/point_cloud_transport/issues/142>`_)
-* Removed outdated comment (`#138 <https://github.com/ros-perception/point_cloud_transport/issues/138>`_)
-* Contributors: Alejandro Hernández Cordero, mini-1235
+* Fix duplicate component registration for Republisher (`#142 <https://github.com/ros-perception/point_cloud_transport/issues/142>`_) (`#143 <https://github.com/ros-perception/point_cloud_transport/issues/143>`_)
+* Removed outdated comment (`#138 <https://github.com/ros-perception/point_cloud_transport/issues/138>`_) (`#139 <https://github.com/ros-perception/point_cloud_transport/issues/139>`_)
+* Contributors: mergify[bot]
 
-5.3.1 (2025-10-15)
+5.1.4 (2025-10-15)
 ------------------
-* Use standard unsigned int in place of uint for Windows compatibility (`#134 <https://github.com/ros-perception/point_cloud_transport/issues/134>`_)
-* Contributors: Silvio Traversaro
+* Use standard unsigned int in place of uint for Windows compatibility (backport `#134 <https://github.com/ros-perception/point_cloud_transport/issues/134>`_) (`#135 <https://github.com/ros-perception/point_cloud_transport/issues/135>`_)
+* Contributors: mergify[bot]
 
-5.3.0 (2025-07-25)
-------------------
-* Update subscriber filter (`#126 <https://github.com/ros-perception/point_cloud_transport/issues/126>`_)
-* Simplify NodeInterface API mehotd call (`#129 <https://github.com/ros-perception/point_cloud_transport/issues/129>`_)
-* Fixed QOS override tests (`#128 <https://github.com/ros-perception/point_cloud_transport/issues/128>`_)
-* Contributors: Alejandro Hernández Cordero, ElSayed ElSheikh
-
-5.2.2 (2025-06-27)
-------------------
-* Deprecated rmw_qos_profile_t (`#125 <https://github.com/ros-perception/point_cloud_transport/issues/125>`_)
-* Contributors: Alejandro Hernández Cordero
-
-5.2.1 (2025-06-04)
-------------------
-* Feat/Add LifecycleNode Support (`#109 <https://github.com/ros-perception/point_cloud_transport/issues/109>`_)
-* Contributors: ElSayed ElSheikh
-
-5.2.0 (2025-04-28)
+5.1.3 (2025-05-12)
 ------------------
 
 5.1.2 (2025-04-28)

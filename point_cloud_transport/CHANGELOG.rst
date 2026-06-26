@@ -2,21 +2,18 @@
 Changelog for package point_cloud_transport
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-6.0.2 (2026-06-26)
+5.4.3 (2026-06-26)
 ------------------
-* Make VoidPtr public in PointCloudTransport class (`#186 <https://github.com/ros-perception/point_cloud_transport/issues/186>`_)
-* Added rosdoc2 documentation for point_cloud_transport (`#155 <https://github.com/ros-perception/point_cloud_transport/issues/155>`_)
-* Contributors: Alejandro Hernández Cordero, Martin Pecka
+* Make VoidPtr public in PointCloudTransport class (`#186 <https://github.com/ros-perception/point_cloud_transport/issues/186>`_) (`#187 <https://github.com/ros-perception/point_cloud_transport/issues/187>`_)
+* Contributors: mergify[bot]
 
-6.0.1 (2026-05-29)
+5.4.2 (2026-05-29)
 ------------------
-* Removed deprecated API (`#160 <https://github.com/ros-perception/point_cloud_transport/issues/160>`_)
-* getPubLoader() and getSubLoader() marked deprecated (`#159 <https://github.com/ros-perception/point_cloud_transport/issues/159>`_)
-* Added version.h (`#163 <https://github.com/ros-perception/point_cloud_transport/issues/163>`_)
-* Cleanups headers and avoid use std::cout (`#158 <https://github.com/ros-perception/point_cloud_transport/issues/158>`_)
-* Contributors: Alejandro Hernández Cordero, Martin Pecka
+* Added version.h (`#163 <https://github.com/ros-perception/point_cloud_transport/issues/163>`_) (`#169 <https://github.com/ros-perception/point_cloud_transport/issues/169>`_)
+* Cleanups headers and avoid use std::cout (`#158 <https://github.com/ros-perception/point_cloud_transport/issues/158>`_) (`#164 <https://github.com/ros-perception/point_cloud_transport/issues/164>`_)
+* Contributors: mergify[bot]
 
-6.0.0 (2026-05-06)
+5.4.1 (2026-04-30)
 ------------------
 * Fix exit crash on aarch64 by using leaky singleton for global loader (`#157 <https://github.com/ros-perception/point_cloud_transport/issues/157>`_)
 * Contributors: Michael Carroll

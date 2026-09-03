@@ -29,36 +29,57 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
-#include <rmw/types.h>
-
-#include <memory>
+#include <optional>
 #include <string>
-
-#include <rclcpp/node.hpp>
-#include <rclcpp/publisher_options.hpp>
-#include <sensor_msgs/msg/point_cloud2.hpp>
+#include <typeinfo>
 
 #include <point_cloud_transport/publisher_plugin.hpp>
+#include <point_cloud_transport/single_subscriber_publisher.hpp>
 
 namespace point_cloud_transport
 {
 
-PublisherPlugin::EncodeResult PublisherPlugin::encode(const sensor_msgs::msg::PointCloud2 & raw)
-const
+// ---------------------------------------------------------------------------
+// Helpers shared by both getTransportName() and getMessageType().
+// ---------------------------------------------------------------------------
+
+/// Populate the manifest cache on first call and return a reference to it.
+static const PluginManifestData & ensure_manifest_data(
+  std::optional<PluginManifestData> & cache,
+  const char * mangled_this_type)
 {
-  return this->encode(raw);
+  if (!cache) {
+    const std::string demangled = demangle_cpp_type_name(mangled_this_type);
+    cache.emplace(get_pub_manifest_data_from_class_type(demangled));
+  }
+  return *cache;
+}
+
+std::string PublisherPlugin::getTransportName() const
+{
+  return ensure_manifest_data(manifest_data_, typeid(*this).name()).transport_name;
+}
+
+std::string PublisherPlugin::getMessageType() const
+{
+  return ensure_manifest_data(manifest_data_, typeid(*this).name()).message_type;
 }
 
 void PublisherPlugin::advertise(
-  std::shared_ptr<rclcpp::Node> node,
+  rclcpp::node_interfaces::NodeInterfaces<
+    rclcpp::node_interfaces::NodeBaseInterface,
+    rclcpp::node_interfaces::NodeParametersInterface,
+    rclcpp::node_interfaces::NodeTopicsInterface,
+    rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
   const std::string & base_topic,
-  rmw_qos_profile_t custom_qos,
+  rclcpp::QoS custom_qos,
   const rclcpp::PublisherOptions & options)
 {
-  advertiseImpl(node, base_topic, custom_qos, options);
+  advertiseImpl(node_interfaces, base_topic, custom_qos, options);
 }
 
-void PublisherPlugin::publish(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & message) const
+void PublisherPlugin::publishPtr(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & message)
+const
 {
   publish(*message);
 }

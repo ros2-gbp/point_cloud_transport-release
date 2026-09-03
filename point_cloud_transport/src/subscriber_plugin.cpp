@@ -29,38 +29,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef POINT_CLOUD_TRANSPORT__REPUBLISH_HPP_
-#define POINT_CLOUD_TRANSPORT__REPUBLISH_HPP_
+#include <optional>
+#include <string>
+#include <typeinfo>
 
-#include <memory>
-
-#include "point_cloud_transport/visibility_control.hpp"
-
-#include <point_cloud_transport/point_cloud_transport.hpp>
-
-#include <rclcpp/node.hpp>
+#include <point_cloud_transport/subscriber_plugin.hpp>
 
 namespace point_cloud_transport
 {
 
-class Republisher : public rclcpp::Node
+// ---------------------------------------------------------------------------
+// Helpers shared by both getTransportName() and getMessageType().
+// ---------------------------------------------------------------------------
+
+/// Populate the manifest cache on first call and return a reference to it.
+static const PluginManifestData & ensure_manifest_data(
+  std::optional<PluginManifestData> & cache,
+  const char * mangled_this_type)
 {
-public:
-  //! Constructor
-  POINT_CLOUD_TRANSPORT_PUBLIC
-  explicit Republisher(const rclcpp::NodeOptions & options);
+  if (!cache) {
+    const std::string demangled = demangle_cpp_type_name(mangled_this_type);
+    cache.emplace(get_sub_manifest_data_from_class_type(demangled));
+  }
+  return *cache;
+}
 
-private:
-  POINT_CLOUD_TRANSPORT_PUBLIC
-  void initialize();
+std::string SubscriberPlugin::getTransportName() const
+{
+  return ensure_manifest_data(manifest_data_, typeid(*this).name()).transport_name;
+}
 
-  std::shared_ptr<point_cloud_transport::PointCloudTransport> pct;
-  rclcpp::TimerBase::SharedPtr timer_;
-  bool initialized_{false};
-  point_cloud_transport::Subscriber sub;
-  std::shared_ptr<point_cloud_transport::PublisherPlugin> pub;
-  std::shared_ptr<point_cloud_transport::Publisher> simple_pub;
-};
+std::string SubscriberPlugin::getMessageType() const
+{
+  return ensure_manifest_data(manifest_data_, typeid(*this).name()).message_type;
+}
 
 }  // namespace point_cloud_transport
-#endif  // POINT_CLOUD_TRANSPORT__REPUBLISH_HPP_

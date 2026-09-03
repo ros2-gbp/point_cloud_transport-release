@@ -31,8 +31,10 @@
 #include <chrono>
 #include <memory>
 
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/executors/single_threaded_executor.hpp>
 #include <rclcpp/node.hpp>
+#include <rclcpp/qos.hpp>
+#include <rclcpp/utilities.hpp>
 
 #include <point_cloud_transport/point_cloud_transport.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
@@ -68,7 +70,7 @@ void pointcloudCallback(const sensor_msgs::msg::PointCloud2::ConstSharedPtr & ms
   total_pointclouds_received++;
 }
 
-TEST_F(MessagePassingTesting, one_message_passing)
+TEST_F(MessagePassingTesting, one_message_passing_ni_api)
 {
   const size_t max_retries = 3;
   const size_t max_loops = 200;
@@ -76,11 +78,14 @@ TEST_F(MessagePassingTesting, one_message_passing)
 
   rclcpp::executors::SingleThreadedExecutor executor;
 
-  auto pub = point_cloud_transport::create_publisher(node_, "pointcloud");
+  auto pub = point_cloud_transport::create_publisher(
+    *node_,
+    "pointcloud",
+    rclcpp::SystemDefaultsQoS());
   auto sub =
     point_cloud_transport::create_subscription(
-    node_, "pointcloud", pointcloudCallback,
-    "raw");
+    *node_, "pointcloud", pointcloudCallback,
+    "raw", rclcpp::SystemDefaultsQoS());
 
   test_rclcpp::wait_for_subscriber(node_, sub.getTopic());
 

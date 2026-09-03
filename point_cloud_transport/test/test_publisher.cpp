@@ -31,7 +31,10 @@
 #include <string>
 #include <memory>
 
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/node.hpp>
+#include <rclcpp/node_interfaces/node_interfaces.hpp>
+#include <rclcpp/qos.hpp>
+#include <rclcpp/utilities.hpp>
 
 #include "point_cloud_transport/point_cloud_transport.hpp"
 
@@ -46,9 +49,12 @@ protected:
   rclcpp::Node::SharedPtr node_;
 };
 
-TEST_F(TestPublisher, publisher)
+TEST_F(TestPublisher, publisher_ni_api)
 {
-  auto pub = point_cloud_transport::create_publisher(node_, "point_cloud");
+  auto pub = point_cloud_transport::create_publisher(
+    *node_,
+    "point_cloud",
+    rclcpp::SystemDefaultsQoS());
   EXPECT_EQ(node_->get_node_graph_interface()->count_publishers("point_cloud"), 1u);
   pub.shutdown();
   EXPECT_EQ(node_->get_node_graph_interface()->count_publishers("point_cloud"), 0u);
@@ -57,10 +63,10 @@ TEST_F(TestPublisher, publisher)
   pub.publish(sensor_msgs::msg::PointCloud2::ConstSharedPtr());
 }
 
-TEST_F(TestPublisher, point_cloud_transport_publisher)
+TEST_F(TestPublisher, point_cloud_transport_publisher_ni_api)
 {
-  point_cloud_transport::PointCloudTransport it(node_);
-  auto pub = it.advertise("point_cloud", rmw_qos_profile_sensor_data);
+  point_cloud_transport::PointCloudTransport it(*node_);
+  auto pub = it.advertise("point_cloud", rclcpp::SystemDefaultsQoS());
 }
 
 int main(int argc, char ** argv)

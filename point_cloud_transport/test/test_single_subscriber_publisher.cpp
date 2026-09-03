@@ -32,7 +32,8 @@
 
 #include "gtest/gtest.h"
 
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/node.hpp>
+#include <rclcpp/utilities.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 #include "point_cloud_transport/single_subscriber_publisher.hpp"
@@ -57,6 +58,11 @@ protected:
   void TearDown()
   {
     node.reset();
+  }
+
+  static void TearDownTestSuite()
+  {
+    rclcpp::shutdown();
   }
 
   rclcpp::Node::SharedPtr node;

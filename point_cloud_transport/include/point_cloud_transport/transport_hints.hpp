@@ -36,6 +36,7 @@
 #include <string>
 
 #include <rclcpp/node.hpp>
+#include <rclcpp/node_interfaces/node_interfaces.hpp>
 
 #include "point_cloud_transport/visibility_control.hpp"
 
@@ -54,17 +55,20 @@ public:
   /// in the node's local namespace. For consistency across ROS applications, the
   /// name of this parameter should not be changed without good reason.
   ///
-  /// \param node Node to use when looking up the transport parameter.
+  /// \param node_interfaces Node interfaces to use when looking up the transport parameter.
   /// \param default_transport Preferred transport to use
   /// \param parameter_name The name of the transport parameter
   POINT_CLOUD_TRANSPORT_PUBLIC
   TransportHints(
-    const std::shared_ptr<rclcpp::Node> node,
+    rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeParametersInterface> node_interfaces,
     const std::string & default_transport = "raw",
     const std::string & parameter_name = "point_cloud_transport")
   {
-    node->declare_parameter<std::string>(parameter_name, transport_);
-    node->get_parameter_or<std::string>(parameter_name, transport_, default_transport);
+    auto node_parameter = node_interfaces.get_node_parameters_interface();
+    node_parameter->declare_parameter(parameter_name, rclcpp::ParameterValue(transport_));
+    auto transport_param = node_parameter->get_parameter(parameter_name).get_value<std::string>();
+    transport_ = transport_param.empty() ? default_transport : transport_param;
   }
 
   POINT_CLOUD_TRANSPORT_PUBLIC

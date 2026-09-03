@@ -32,19 +32,20 @@
 #ifndef POINT_CLOUD_TRANSPORT__PUBLISHER_HPP_
 #define POINT_CLOUD_TRANSPORT__PUBLISHER_HPP_
 
+#include <memory>
 #include <string>
 #include <map>
-#include <memory>
 
-#include "rclcpp/macros.hpp"
-#include "rclcpp/node.hpp"
+#include <rclcpp/macros.hpp>
+#include <rclcpp/node.hpp>
+#include <rclcpp/node_interfaces/node_interfaces.hpp>
 
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 #include <point_cloud_transport/loader_fwds.hpp>
 #include <point_cloud_transport/single_subscriber_publisher.hpp>
 
-#include "point_cloud_transport/visibility_control.hpp"
+#include <point_cloud_transport/visibility_control.hpp>
 
 namespace point_cloud_transport
 {
@@ -58,10 +59,14 @@ public:
 
   POINT_CLOUD_TRANSPORT_PUBLIC
   Publisher(
-    std::shared_ptr<rclcpp::Node> node,
+    rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeBaseInterface,
+      rclcpp::node_interfaces::NodeParametersInterface,
+      rclcpp::node_interfaces::NodeTopicsInterface,
+      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
     const std::string & base_topic,
     PubLoaderPtr loader,
-    rmw_qos_profile_t custom_qos,
+    rclcpp::QoS custom_qos,
     const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions());
 
   //! get total number of subscribers to all advertised topics.

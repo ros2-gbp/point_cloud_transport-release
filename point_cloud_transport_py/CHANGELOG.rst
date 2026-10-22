@@ -2,35 +2,22 @@
 Changelog for package point_cloud_transport_py
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-6.0.5 (2026-10-22)
+5.4.4 (2026-10-22)
 ------------------
-* point_cloud_transport_py: avoid intermediate copies in publish/encode/decode (`#200 <https://github.com/ros-perception/point_cloud_transport//issues/200>`_)
-* point_cloud_transport_py: fix memory leak in PointCloudCodec.encode/decode
-* Contributors: Alejandro Hernández Cordero
+* point_cloud_transport_py: fix memory leak in PointCloudCodec.encode/decode (`#201 <https://github.com/ros-perception/point_cloud_transport//issues/201>`_)
+* Contributors: mergify[bot]
 
-6.0.4 (2026-10-09)
+5.4.3 (2026-06-26)
 ------------------
-* Added common tests to point_cloud_transport_py and fix package.xml (`#195 <https://github.com/ros-perception/point_cloud_transport//issues/195>`_)
-* Include what you use (`#193 <https://github.com/ros-perception/point_cloud_transport//issues/193>`_)
-* Contributors: Alejandro Hernández Cordero
+* Fixed PointCloudCodec encode/decode in Python (`#181 <https://github.com/ros-perception/point_cloud_transport/issues/181>`_) (`#182 <https://github.com/ros-perception/point_cloud_transport/issues/182>`_)
+* Contributors: mergify[bot]
 
-6.0.3 (2026-09-03)
+5.4.2 (2026-05-29)
 ------------------
-* Optimize includes (`#191 <https://github.com/ros-perception/point_cloud_transport/issues/191>`_)
-* Contributors: Alejandro Hernández Cordero
+* Cleanups headers and avoid use std::cout (`#158 <https://github.com/ros-perception/point_cloud_transport/issues/158>`_) (`#164 <https://github.com/ros-perception/point_cloud_transport/issues/164>`_)
+* Contributors: mergify[bot]
 
-6.0.2 (2026-06-26)
-------------------
-* Fixed PointCloudCodec encode/decode in Python (`#181 <https://github.com/ros-perception/point_cloud_transport/issues/181>`_)
-* Added rosdoc2 documentation for point_cloud_transport_py (`#156 <https://github.com/ros-perception/point_cloud_transport/issues/156>`_)
-* Contributors: Alejandro Hernández Cordero, Martin Pecka
-
-6.0.1 (2026-05-29)
-------------------
-* Cleanups headers and avoid use std::cout (`#158 <https://github.com/ros-perception/point_cloud_transport/issues/158>`_)
-* Contributors: Alejandro Hernández Cordero
-
-6.0.0 (2026-05-06)
+5.4.1 (2026-04-30)
 ------------------
 
 5.4.0 (2026-04-08)

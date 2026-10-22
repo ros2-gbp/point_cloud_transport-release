@@ -35,17 +35,12 @@
 #include <memory>
 #include <string>
 
-#include <rclcpp/node_interfaces/node_base_interface.hpp>
-#include <rclcpp/node_interfaces/node_interfaces.hpp>
-#include <rclcpp/node_interfaces/node_logging_interface.hpp>
-#include <rclcpp/node_interfaces/node_parameters_interface.hpp>
-#include <rclcpp/node_interfaces/node_topics_interface.hpp>
-#include <rclcpp/qos.hpp>
-#include <rclcpp/subscription_options.hpp>
+#include <rclcpp/rclcpp.hpp>
 #include <message_filters/subscriber.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
-#include <point_cloud_transport/subscriber.hpp>
+#include <point_cloud_transport/point_cloud_transport.hpp>
+#include <point_cloud_transport/transport_hints.hpp>
 #include "point_cloud_transport/visibility_control.hpp"
 #include "point_cloud_transport/exception.hpp"
 
@@ -73,12 +68,22 @@ class SubscriberFilter
 public:
   ///
   /// \brief Constructor
-  /// \param node_interfaces Node interfaces to use to subscribe.
+  /// \param node The rclcpp node to use to subscribe.
   /// \param base_topic The topic to subscribe to.
+  /// \param queue_size The subscription queue size
   /// \param transport The transport hint to pass along
-  /// \param custom_qos Custom quality of service
-  /// \param options Subscriber options
   ///
+  [[deprecated("Use SubscriberFilter(rclcpp::node_interfaces...) instead")]]
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  SubscriberFilter(
+    std::shared_ptr<rclcpp::Node> node, const std::string & base_topic,
+    const std::string & transport)
+  : SubscriberFilter(
+      *node,
+      base_topic, transport)
+  {
+  }
+
   POINT_CLOUD_TRANSPORT_PUBLIC
   SubscriberFilter(
     rclcpp::node_interfaces::NodeInterfaces<
@@ -100,12 +105,34 @@ public:
   ///
   /// \brief Subscribe to a topic. If this Subscriber is already subscribed to a topic,
   /// this function will first unsubscribe.
-  /// \param node_interfaces Node interfaces to use to subscribe.
+  /// \param node The rclcpp Node to use to subscribe.
   /// \param base_topic The topic to subscribe to.
   /// \param transport The transport hint to pass along
   /// \param custom_qos Custom quality of service
   /// \param options Subscriber options
   ///
+  [[deprecated("Use subscribe(rclcpp::node_interfaces...) instead")]]
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  void subscribe(
+    std::shared_ptr<rclcpp::Node> node,
+    const std::string & base_topic,
+    const std::string & transport,
+    rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
+    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions());
+
+  [[deprecated("Use subscribe(rclcpp::node_interfaces..., rclcpp::QoS, ...) instead")]]
+  POINT_CLOUD_TRANSPORT_PUBLIC
+  void subscribe(
+    std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeBaseInterface,
+      rclcpp::node_interfaces::NodeParametersInterface,
+      rclcpp::node_interfaces::NodeTopicsInterface,
+      rclcpp::node_interfaces::NodeLoggingInterface>> node_interfaces,
+    const std::string & base_topic,
+    const std::string & transport,
+    rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
+    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions());
+
   POINT_CLOUD_TRANSPORT_PUBLIC
   void subscribe(
     rclcpp::node_interfaces::NodeInterfaces<

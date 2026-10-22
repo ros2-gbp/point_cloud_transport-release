@@ -34,17 +34,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include <pluginlib/class_loader.hpp>
-#include <pluginlib/exceptions.hpp>
-
-#include <rclcpp/logger.hpp>
-#include <rclcpp/logging.hpp>
-#include <rclcpp/serialized_message.hpp>
+#include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 #include <point_cloud_transport/point_cloud_codec.hpp>
-#include <point_cloud_transport/publisher_plugin.hpp>
-#include <point_cloud_transport/subscriber_plugin.hpp>
 #include <point_cloud_transport/simple_publisher_plugin.hpp>
 #include <point_cloud_transport/simple_subscriber_plugin.hpp>
 #include <point_cloud_transport/point_cloud_common.hpp>

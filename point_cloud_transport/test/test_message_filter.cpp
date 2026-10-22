@@ -28,16 +28,14 @@
 
 #include <gtest/gtest.h>
 
-#include <functional>
-#include <memory>
 #include <string>
+#include <memory>
 
 #include <message_filters/subscriber.hpp>
 #include <message_filters/sync_policies/approximate_time.hpp>
 #include <message_filters/synchronizer.hpp>
 
-#include <rclcpp/node.hpp>
-#include <rclcpp/utilities.hpp>
+#include <rclcpp/rclcpp.hpp>
 
 #include "point_cloud_transport/point_cloud_transport.hpp"
 #include "point_cloud_transport/subscriber_filter.hpp"
@@ -59,6 +57,39 @@ void callback(
 {
   (void) msg1;
   (void) msg2;
+}
+
+TEST_F(TestSubscriber, create_and_release_filter)
+{
+  typedef message_filters::sync_policies::ApproximateTime<
+      sensor_msgs::msg::PointCloud2, sensor_msgs::msg::PointCloud2>
+    ApproximateTimePolicy;
+
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+  point_cloud_transport::SubscriberFilter pcl_sub1(node_, "pointcloud1", "raw");
+  point_cloud_transport::SubscriberFilter pcl_sub2(node_, "pointcloud2", "raw");
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#else
+#pragma GCC diagnostic pop
+#endif
+
+  auto sync = std::make_shared<message_filters::Synchronizer<ApproximateTimePolicy>>(
+    ApproximateTimePolicy(
+      10), pcl_sub1, pcl_sub2);
+  sync->registerCallback(std::bind(callback, std::placeholders::_1, std::placeholders::_2));
+
+  pcl_sub1.unsubscribe();
+  pcl_sub2.unsubscribe();
+  sync.reset();
 }
 
 TEST_F(TestSubscriber, create_and_release_filter_ni_api)

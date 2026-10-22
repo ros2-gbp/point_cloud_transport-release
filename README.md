@@ -24,7 +24,7 @@ For complete examples of publishing and subscribing to point clouds using [point
 ### C++
 Communicating PointCloud2 messages using [point_cloud_transport](https://github.com/ros-perception/point_cloud_transport):
 ```cpp
-#include <rclcpp/node.hpp>
+#include <rclcpp/rclcpp.hpp>
 #include <point_cloud_transport/point_cloud_transport.hpp>
 
 void Callback(const sensor_msgs::msg::PointCloud2::ConstSharedPtr& msg)
@@ -33,7 +33,7 @@ void Callback(const sensor_msgs::msg::PointCloud2::ConstSharedPtr& msg)
 }
 
 auto node = std::make_shared<rclcpp::Node>();
-point_cloud_transport::PointCloudTransport pct(*node);
+point_cloud_transport::PointCloudTransport pct(node);
 point_cloud_transport::Subscriber sub = pct.subscribe("in_point_cloud_base_topic", 1, Callback);
 point_cloud_transport::Publisher pub = pct.advertise("out_point_cloud_base_topic", 1);
 ```

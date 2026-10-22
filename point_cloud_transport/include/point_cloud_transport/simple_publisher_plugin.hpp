@@ -33,32 +33,14 @@
 #define POINT_CLOUD_TRANSPORT__SIMPLE_PUBLISHER_PLUGIN_HPP_
 
 
-#include <algorithm>
-#include <cstring>
 #include <functional>
 #include <memory>
-#include <optional>
 #include <string>
 #include <utility>
+#include <optional>
 
-#include <rcl_interfaces/msg/parameter_descriptor.hpp>
-#include <rclcpp/create_publisher.hpp>
-#include <rclcpp/exceptions.hpp>
-#include <rclcpp/logger.hpp>
-#include <rclcpp/logging.hpp>
-#include <rclcpp/node_interfaces/node_base_interface.hpp>
-#include <rclcpp/node_interfaces/node_interfaces.hpp>
-#include <rclcpp/node_interfaces/node_logging_interface.hpp>
-#include <rclcpp/node_interfaces/node_parameters_interface.hpp>
-#include <rclcpp/node_interfaces/node_topics_interface.hpp>
-#include <rclcpp/parameter.hpp>
-#include <rclcpp/parameter_value.hpp>
-#include <rclcpp/publisher.hpp>
-#include <rclcpp/publisher_base.hpp>
-#include <rclcpp/publisher_options.hpp>
-#include <rclcpp/qos.hpp>
+#include <rclcpp/rclcpp.hpp>
 #include <rclcpp/serialization.hpp>
-#include <rclcpp/serialized_message.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <rcpputils/tl_expected/expected.hpp>
 
@@ -76,9 +58,11 @@ namespace point_cloud_transport
 /// This base class vastly simplifies implementing a PublisherPlugin in the common
 /// case that all communication with the matching SubscriberPlugin happens over a
 /// single ROS topic using a transport-specific message type. SimplePublisherPlugin
-/// is templated on the transport-specific message type.
+/// is templated on the transport-specific message type and publisher dynamic
+/// reconfigure type.
 ///
 /// A subclass needs to implement:
+/// - getTransportName() from PublisherPlugin
 /// - encodeTyped()
 /// - getDataType()
 /// - declareParameters()
@@ -239,6 +223,20 @@ protected:
   std::string base_topic_;
 
   void advertiseImpl(
+    std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
+      rclcpp::node_interfaces::NodeBaseInterface,
+      rclcpp::node_interfaces::NodeParametersInterface,
+      rclcpp::node_interfaces::NodeTopicsInterface,
+      rclcpp::node_interfaces::NodeLoggingInterface>> node_interfaces,
+    const std::string & base_topic,
+    rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
+    const rclcpp::PublisherOptions & options = rclcpp::PublisherOptions()) override
+  {
+    advertiseImpl(*node_interfaces, base_topic,
+        rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
+  }
+
+  void advertiseImpl(
     rclcpp::node_interfaces::NodeInterfaces<
       rclcpp::node_interfaces::NodeBaseInterface,
       rclcpp::node_interfaces::NodeParametersInterface,
@@ -337,8 +335,7 @@ private:
       rclcpp::node_interfaces::NodeParametersInterface,
       rclcpp::node_interfaces::NodeTopicsInterface,
       rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces_;
-    rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr
-      on_set_parameters_callback_handle_;
+    rclcpp::Node::OnSetParametersCallbackHandle::SharedPtr on_set_parameters_callback_handle_;
     rclcpp::Logger logger_;
     typename rclcpp::Publisher<M>::SharedPtr pub_;
   };

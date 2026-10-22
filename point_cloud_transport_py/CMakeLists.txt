@@ -1,16 +1,22 @@
 cmake_minimum_required(VERSION 3.20)
 project(point_cloud_transport_py)
 
-# The C++/C standard comes from ament_ros_defaults (cxx_std_20 / c_std_17),
-# provided by the ament_cmake_ros_core::ament_ros_defaults INTERFACE target and
-# linked PRIVATE into the Python extension modules below. They are not consumed
-# as C++ targets, so the standard does not need to propagate anywhere.
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
+
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_ros_core REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(ament_cmake_ros REQUIRED)
 find_package(point_cloud_transport REQUIRED)
@@ -48,9 +54,6 @@ target_link_libraries(_point_cloud_transport PUBLIC
   rclcpp::rclcpp
   sensor_msgs::sensor_msgs
 )
-target_link_libraries(_point_cloud_transport PRIVATE
-  ament_cmake_ros_core::ament_ros_defaults
-)
 
 pybind11_add_module(_codec SHARED
   src/point_cloud_transport_py/pybind_codec.cpp
@@ -58,9 +61,6 @@ pybind11_add_module(_codec SHARED
 target_link_libraries(_codec PUBLIC
   point_cloud_transport::point_cloud_transport
   pluginlib::pluginlib
-)
-target_link_libraries(_codec PRIVATE
-  ament_cmake_ros_core::ament_ros_defaults
 )
 
 # Install cython modules as sub-modules of the project
@@ -70,11 +70,5 @@ install(
     _codec
   DESTINATION "${PYTHON_INSTALL_DIR}/${PROJECT_NAME}"
 )
-
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-
-  ament_lint_auto_find_test_dependencies()
-endif()
 
 ament_package()

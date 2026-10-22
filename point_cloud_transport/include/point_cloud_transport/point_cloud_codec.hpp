@@ -36,11 +36,14 @@
 #include <string>
 #include <vector>
 
-#include <rclcpp/serialized_message.hpp>
+#include <pluginlib/class_loader.hpp>
+#include <pluginlib/exceptions.hpp>
 
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 #include <point_cloud_transport/loader_fwds.hpp>
+#include <point_cloud_transport/publisher_plugin.hpp>
+#include <point_cloud_transport/subscriber_plugin.hpp>
 #include "point_cloud_transport/visibility_control.hpp"
 
 namespace point_cloud_transport

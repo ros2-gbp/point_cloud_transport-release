@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <functional>
-#include <iostream>
 #include <memory>
-#include <stdexcept>
 #include <string>
 #include <thread>
 
@@ -24,15 +21,10 @@
 #include <point_cloud_transport/point_cloud_transport.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
-#include <rclcpp/executors/single_threaded_executor.hpp>
-#include <rclcpp/node.hpp>
-#include <rclcpp/node_options.hpp>
+#include <rclcpp/rclcpp.hpp>
 #include <rclcpp/serialization.hpp>
-#include <rclcpp/serialized_message.hpp>
-#include <rclcpp/utilities.hpp>
 
 #include "./pybind11.hpp"
-#include "./borrowed_serialized_message.hpp"
 
 namespace point_cloud_transport_python
 {
@@ -51,45 +43,55 @@ PYBIND11_MODULE(_point_cloud_transport, m)
       "Returns the number of subscribers this publisher is connected to.")
   .def("shutdown", &point_cloud_transport::Publisher::shutdown,
       "Unsubscribe the callback associated with this Publisher.")
-  .def("publish", [](point_cloud_transport::Publisher & publisher,
-    const pybind11::buffer & buffer) {
-      // Deserialize straight from the Python memory, without intermediate copies.
-      sensor_msgs::msg::PointCloud2 pc2;
-      {
-        point_cloud_transport_python::BorrowedSerializedMessage borrowed(buffer);
-        rclcpp::Serialization<sensor_msgs::msg::PointCloud2> serialization;
-        serialization.deserialize_message(&borrowed.get(), &pc2);
-      }
-      publisher.publish(pc2);
+  .def("publish",[] (point_cloud_transport::Publisher &publisher,
+                     std::string &buffer) {
+       sensor_msgs::msg::PointCloud2 pc2;
+       rclcpp::Serialization<sensor_msgs::msg::PointCloud2> serialization;
+
+       rcl_serialized_message_t raw_serialized_msg = rmw_get_zero_initialized_serialized_message();
+       // Allocate memory for the serialized message
+       raw_serialized_msg.buffer_capacity = buffer.size();
+       raw_serialized_msg.buffer_length = buffer.size();
+       raw_serialized_msg.buffer = reinterpret_cast<uint8_t *>(const_cast<char *>(buffer.c_str()));
+       raw_serialized_msg.allocator = rcl_get_default_allocator();
+       if (!raw_serialized_msg.buffer) {
+         throw std::runtime_error("Failed to allocate memory for serialized message.");
+       }
+
+       // Copy the string data into the serialized message buffer
+       rclcpp::SerializedMessage extracted_serialized_msg(raw_serialized_msg);
+       serialization.deserialize_message(&extracted_serialized_msg, &pc2);
+
+       publisher.publish(pc2);
        },
-       "Publish a serialized sensor_msgs/PointCloud2 (bytes) on the topics associated with this "
-       "Publisher.");
+       "Publish a point cloud on the topics associated with this Publisher.");
 
   pybind11::class_<point_cloud_transport::PointCloudTransport>(m, "PointCloudTransport")
-  .def(pybind11::init([](const std::string & node_name,
-    const std::string & launch_params_filepath) {
-      if (!rclcpp::ok()) {
-        rclcpp::init(0, nullptr);
-      }
-      rclcpp::NodeOptions node_options;
+  .def(pybind11::init([](const std::string& node_name, const std::string& launch_params_filepath) {
+    if (!rclcpp::ok())
+    {
+      rclcpp::init(0, nullptr);
+    }
+    rclcpp::NodeOptions node_options;
 
-      if (!launch_params_filepath.empty()) {
-        node_options.allow_undeclared_parameters(true)
+    if (!launch_params_filepath.empty())
+    {
+      node_options.allow_undeclared_parameters(true)
         .automatically_declare_parameters_from_overrides(true)
-        .arguments({"--ros-args", "--params-file", launch_params_filepath});
-      }
-      rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared(node_name, "", node_options);
-      std::shared_ptr<rclcpp::executors::SingleThreadedExecutor> executor =
-      std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
+        .arguments({ "--ros-args", "--params-file", launch_params_filepath });
+    }
+    rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared(node_name, "", node_options);
+    std::shared_ptr<rclcpp::executors::SingleThreadedExecutor> executor =
+        std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
 
-      auto spin_node = [node, executor]() {
-        executor->add_node(node);
-        executor->spin();
-      };
-      std::thread execution_thread(spin_node);
-      execution_thread.detach();
+    auto spin_node = [node, executor]() {
+      executor->add_node(node);
+      executor->spin();
+    };
+    std::thread execution_thread(spin_node);
+    execution_thread.detach();
 
-      return point_cloud_transport::PointCloudTransport(*node);
+    return point_cloud_transport::PointCloudTransport(*node);
   }))
   .def("advertise",
        pybind11::overload_cast<const std::string &, uint32_t>(
@@ -113,13 +115,8 @@ PYBIND11_MODULE(_point_cloud_transport, m)
   //
   //          std::string buffer;
   //          buffer.resize(serialized_msg.get_rcl_serialized_message().buffer_capacity);
-  //          std::cerr << "buffer_capacity: "
-  //                    << serialized_msg.get_rcl_serialized_message().buffer_capacity
-  //                    << '\n';
-  //          memcpy(
-  //            buffer.data(),
-  //            serialized_msg.get_rcl_serialized_message().buffer,
-  //            serialized_msg.get_rcl_serialized_message().buffer_capacity);
+  //          std::cerr << "buffer_capacity: " << serialized_msg.get_rcl_serialized_message().buffer_capacity << '\n';
+  //          memcpy(buffer.data(), serialized_msg.get_rcl_serialized_message().buffer, serialized_msg.get_rcl_serialized_message().buffer_capacity);
   //
   //          std::cerr << "2" << '\n';
   //          callback(buffer.c_str());
@@ -141,5 +138,6 @@ PYBIND11_MODULE(_point_cloud_transport, m)
        "Returns the name of the transport being used.")
   .def("shutdown", &point_cloud_transport::Subscriber::shutdown,
        "Unsubscribe the callback associated with this Subscriber.");
+
 }
 }  // namespace point_cloud_transport_python

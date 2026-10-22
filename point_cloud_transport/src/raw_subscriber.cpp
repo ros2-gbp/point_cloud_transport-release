@@ -31,10 +31,7 @@
 
 #include <string>
 
-#include <pluginlib/class_list_macros.hpp>
-
 #include <point_cloud_transport/raw_subscriber.hpp>
-#include <point_cloud_transport/subscriber_plugin.hpp>
 
 namespace point_cloud_transport
 {
@@ -80,7 +77,3 @@ void RawSubscriber::callback(
 }
 
 }  // namespace point_cloud_transport
-
-PLUGINLIB_EXPORT_CLASS(
-  point_cloud_transport::RawSubscriber,
-  point_cloud_transport::SubscriberPlugin)

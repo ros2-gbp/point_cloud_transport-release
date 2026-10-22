@@ -54,7 +54,7 @@ class TransportLoadException : public Exception
 public:
   TransportLoadException(const std::string & transport, const std::string & message)
   : Exception("Unable to load plugin for transport '" + transport + "', error string:\n" + message),
-    transport_(transport)
+    transport_(transport.c_str())
   {
   }
 
@@ -64,7 +64,7 @@ public:
   }
 
 protected:
-  std::string transport_;
+  const char * transport_;
 };
 
 }  // namespace point_cloud_transport

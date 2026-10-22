@@ -42,6 +42,7 @@ set(Python3_FIND_UNVERSIONED_NAMES FIRST)
 # Find python before pybind11
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
+find_package(pybind11_vendor REQUIRED)
 find_package(pybind11 REQUIRED)
 
 ament_python_install_package(${PROJECT_NAME})
@@ -52,7 +53,7 @@ pybind11_add_module(_point_cloud_transport SHARED
 target_link_libraries(_point_cloud_transport PUBLIC
   point_cloud_transport::point_cloud_transport
   rclcpp::rclcpp
-  sensor_msgs::sensor_msgs
+  ${sensor_msgs_TARGETS}
 )
 
 pybind11_add_module(_codec SHARED

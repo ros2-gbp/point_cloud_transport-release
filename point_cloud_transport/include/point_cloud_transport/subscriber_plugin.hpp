@@ -32,18 +32,19 @@
 #ifndef POINT_CLOUD_TRANSPORT__SUBSCRIBER_PLUGIN_HPP_
 #define POINT_CLOUD_TRANSPORT__SUBSCRIBER_PLUGIN_HPP_
 
+#include <list>
 #include <memory>
 #include <string>
 #include <optional>
 
-#include <rclcpp/macros.hpp>
-#include <rclcpp/node.hpp>
+#include "rclcpp/macros.hpp"
+#include "rclcpp/node.hpp"
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <rcpputils/tl_expected/expected.hpp>
 
-#include <point_cloud_transport/point_cloud_common.hpp>
 #include <point_cloud_transport/transport_hints.hpp>
-#include <point_cloud_transport/visibility_control.hpp>
+
+#include "point_cloud_transport/visibility_control.hpp"
 
 namespace point_cloud_transport
 {
@@ -51,7 +52,7 @@ namespace point_cloud_transport
 ///
 /// Base class for plugins to Subscriber.
 ///
-class SubscriberPlugin
+class POINT_CLOUD_TRANSPORT_PUBLIC SubscriberPlugin
 {
 public:
   /// \brief Result of cloud decoding. Either a `sensor_msgs::msg::PointCloud2`
@@ -67,29 +68,11 @@ public:
 
   typedef std::function<void (const sensor_msgs::msg::PointCloud2::ConstSharedPtr &)> Callback;
 
-  /**
-   * \brief Get a string identifier for the transport provided by this plugin.
-   *
-   * The default implementation auto-discovers the name from the pluginlib
-   * manifest XML by matching the demangled C++ type name of \c *this against
-   * the \c type attribute of each \c <class> element.  The result is cached
-   * after the first call.
-   *
-   * Plugins that override getTransportName() continue to work unchanged.
-   * Returning a different value than what is in the manifest is considered problematic.
-   */
-  POINT_CLOUD_TRANSPORT_PUBLIC
-  virtual std::string getTransportName() const;
-
-  /**
-   * \brief Get the primary message type used by this plugin.
-   *
-   * Returns the value of the \c <message_type> element from the plugin
-   * manifest XML.  The result is cached after the first call.
-   * Override this method if you need a different value at runtime.
-   */
-  POINT_CLOUD_TRANSPORT_PUBLIC
-  virtual std::string getMessageType() const;
+  ///
+  /// Get a string identifier for the transport provided by
+  /// this plugin.
+  ///
+  virtual std::string getTransportName() const = 0;
 
   ///
   /// \brief Decode the given compressed pointcloud into a raw cloud.
@@ -101,54 +84,20 @@ public:
   0;
 
   ///
-  /// \brief Subscribe to a pointcloud topic, version for arbitrary std::function object.
+  /// \brief Subscribe to an pointcloud topic, version for arbitrary std::function object.
   ///
-  [[deprecated("Use subscribe(rclcpp::node_interfaces...) instead")]]
   void subscribe(
     std::shared_ptr<rclcpp::Node> node, const std::string & base_topic,
     const Callback & callback,
     rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
     rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
   {
-    return subscribeImpl(*node, base_topic, callback,
-        rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
-  }
-
-  [[deprecated("Use subscribe(rclcpp::node_interfaces, ..., rclcpp::QoS, ...) instead")]]
-  void subscribe(
-    std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface>> & node_interfaces,
-    const std::string & base_topic,
-    const Callback & callback,
-    rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    return subscribeImpl(
-      *node_interfaces, base_topic, callback,
-        rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
-  }
-
-  void subscribe(
-    rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-    const std::string & base_topic,
-    const Callback & callback,
-    rclcpp::QoS custom_qos,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    return subscribeImpl(node_interfaces, base_topic, callback, custom_qos, options);
+    return subscribeImpl(node, base_topic, callback, custom_qos, options);
   }
 
   ///
-  /// \brief Subscribe to a pointcloud topic, version for bare function.
+  /// \brief Subscribe to an pointcloud topic, version for bare function.
   ///
-  [[deprecated("Use subscribe(rclcpp::node_interfaces...) instead")]]
   void subscribe(
     std::shared_ptr<rclcpp::Node> node, const std::string & base_topic,
     void (* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &),
@@ -156,44 +105,7 @@ public:
     rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
   {
     return subscribe(
-      *node,
-      base_topic,
-      std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &)>(fp),
-      rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos),
-      options);
-  }
-
-  [[deprecated("Use subscribe(rclcpp::node_interfaces, ..., rclcpp::QoS, ...) instead")]]
-  void subscribe(
-    std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface>> & node_interfaces,
-    const std::string & base_topic,
-    void (* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &),
-    rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    return subscribe(
-      *node_interfaces, base_topic,
-      std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &)>(fp),
-      rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
-  }
-
-  void subscribe(
-    rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-    const std::string & base_topic,
-    void (* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &),
-    rclcpp::QoS custom_qos,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    return subscribe(
-      node_interfaces, base_topic,
+      node, base_topic,
       std::function<void(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &)>(fp),
       custom_qos, options);
   }
@@ -202,61 +114,18 @@ public:
   virtual rclcpp::SubscriptionBase::SharedPtr getSubscription() const = 0;
 
   ///
-  /// \brief Subscribe to a pointcloud topic, version for class member function with bare pointer.
+  /// \brief Subscribe to an pointcloud topic, version for class member function with bare pointer.
   ///
   template<class T>
-  [[deprecated("Use subscribe(rclcpp::node_interfaces...) instead")]]
   void subscribe(
     std::shared_ptr<rclcpp::Node> node, const std::string & base_topic,
     void (T::* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &), T * obj,
     rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
     rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
   {
-    auto node_interfaces = std::make_shared<rclcpp::node_interfaces::NodeInterfaces<
-          rclcpp::node_interfaces::NodeBaseInterface,
-          rclcpp::node_interfaces::NodeParametersInterface,
-          rclcpp::node_interfaces::NodeTopicsInterface,
-          rclcpp::node_interfaces::NodeLoggingInterface>>(*node);
     return subscribe(
-      node_interfaces, base_topic,
+      node, base_topic,
       std::bind(fp, obj, std::placeholders::_1), custom_qos, options);
-  }
-
-  template<class T>
-  [[deprecated("Use subscribe(rclcpp::node_interfaces, ..., rclcpp::QoS, ...) instead")]]
-  void subscribe(
-    rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface> & node_interfaces,
-    const std::string & base_topic,
-    void (T::* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &), T * obj,
-    rmw_qos_profile_t custom_qos = rmw_qos_profile_default,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    return subscribe(
-      node_interfaces, base_topic,
-      std::bind(fp, obj, std::placeholders::_1),
-      rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos), options);
-  }
-
-  template<class T>
-  void subscribe(
-    rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-    const std::string & base_topic,
-    void (T::* fp)(const sensor_msgs::msg::PointCloud2::ConstSharedPtr &), T * obj,
-    rclcpp::QoS custom_qos,
-    rclcpp::SubscriptionOptions options = rclcpp::SubscriptionOptions())
-  {
-    return subscribe(
-      node_interfaces, base_topic,
-      std::bind(fp, obj, std::placeholders::_1),
-      custom_qos, options);
   }
 
   //! Get the transport-specific communication topic.
@@ -285,108 +154,28 @@ public:
   /// \brief Return the lookup name of the SubscriberPlugin associated with a specific
   /// transport identifier.
   /// \param transport_type The transport identifier.
-  /// \return The lookup name of the SubscriberPlugin associated with the given transport.
+  /// \return The lookup name of the SubscriberPlugin associated with a specific
   ///
   static std::string getLookupName(const std::string & transport_type)
   {
     return "point_cloud_transport/" + transport_type + "_sub";
   }
 
-private:
-  // Cache for manifest-discovered data (populated lazily by the base-class
-  // implementation of getTransportName() / getMessageType()).
-  mutable std::optional<PluginManifestData> manifest_data_;
-
 protected:
   ///
   /// Subscribe to a point cloud transport topic. Must be implemented by the subclass.
   ///
-  [[deprecated("Use subscribeImpl(rclcpp::node_interfaces...) instead")]]
   virtual void subscribeImpl(
     std::shared_ptr<rclcpp::Node> node,
     const std::string & base_topic,
     const Callback & callback,
-    rmw_qos_profile_t custom_qos = rmw_qos_profile_default)
-  {
-    subscribeImpl(
-      *node,
-      base_topic,
-      callback,
-      rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos));
-  }
+    rmw_qos_profile_t custom_qos = rmw_qos_profile_default) = 0;
 
-  [[deprecated("Use subscribeImpl(rclcpp::node_interfaces..., rclcpp::QoS, ...) instead")]]
-  virtual void subscribeImpl(
-    std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface>> node_interfaces,
-    const std::string & base_topic,
-    const Callback & callback,
-    rmw_qos_profile_t custom_qos = rmw_qos_profile_default)
-  {
-    subscribeImpl(
-        *node_interfaces,
-        base_topic,
-        callback,
-        rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos));
-  }
-
-  virtual void subscribeImpl(
-    rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-    const std::string & base_topic,
-    const Callback & callback,
-    rclcpp::QoS custom_qos) = 0;
-
-  [[deprecated("Use subscribeImpl(rclcpp::node_interfaces...) instead")]]
   virtual void subscribeImpl(
     std::shared_ptr<rclcpp::Node> node,
     const std::string & base_topic,
     const Callback & callback,
     rmw_qos_profile_t custom_qos,
-    rclcpp::SubscriptionOptions options)
-  {
-    subscribeImpl(
-      *node,
-      base_topic,
-      callback,
-      rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos),
-      options);
-  }
-
-  [[deprecated("Use subscribeImpl(rclcpp::node_interfaces..., rclcpp::QoS, ...) instead")]]
-  virtual void subscribeImpl(
-    std::shared_ptr<rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface>> node_interfaces,
-    const std::string & base_topic,
-    const Callback & callback,
-    rmw_qos_profile_t custom_qos,
-    rclcpp::SubscriptionOptions options)
-  {
-    subscribeImpl(
-        *node_interfaces,
-        base_topic, callback,
-        rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(custom_qos), custom_qos),
-        options);
-  }
-
-  virtual void subscribeImpl(
-    rclcpp::node_interfaces::NodeInterfaces<
-      rclcpp::node_interfaces::NodeBaseInterface,
-      rclcpp::node_interfaces::NodeParametersInterface,
-      rclcpp::node_interfaces::NodeTopicsInterface,
-      rclcpp::node_interfaces::NodeLoggingInterface> node_interfaces,
-    const std::string & base_topic,
-    const Callback & callback,
-    rclcpp::QoS custom_qos,
     rclcpp::SubscriptionOptions options) = 0;
 };
 

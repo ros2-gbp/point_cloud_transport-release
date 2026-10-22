@@ -10,8 +10,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - docker-image: "ubuntu:26.04"
-            ros-distro: "lyrical"
+          - docker-image: "ubuntu:24.04"
+            ros-distro: "kilted"
     container:
       image: ${{ matrix.docker-image }}
     steps:

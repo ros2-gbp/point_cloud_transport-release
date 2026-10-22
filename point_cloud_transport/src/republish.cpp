@@ -68,7 +68,7 @@ private:
 Republisher::Republisher(const rclcpp::NodeOptions & options)
 : Node("point_cloud_republisher", options)
 {
-  // Initialize Republisher component after construction
+  // Initialize Republishercomponent after construction
   // shared_from_this can't be used in the constructor
   this->timer_ = create_wall_timer(
     1ms, [this]() {
@@ -119,9 +119,7 @@ void Republisher::initialize()
       "The 'out_transport' parameter is set to: " << out_transport);
   }
 
-  auto node = this->shared_from_this();
-
-  pct = std::make_shared<point_cloud_transport::PointCloudTransport>(*node);
+  pct = std::make_shared<point_cloud_transport::PointCloudTransport>(this->shared_from_this());
 
   auto qos_override_options = rclcpp::QosOverridingOptions(
     {
@@ -141,7 +139,7 @@ void Republisher::initialize()
       std::make_shared<point_cloud_transport::Publisher>(
       pct->advertise(
         out_topic,
-        rclcpp::SystemDefaultsQoS(),
+        rmw_qos_profile_default,
         pub_options));
 
     RCLCPP_INFO_STREAM(
@@ -168,7 +166,7 @@ void Republisher::initialize()
     auto instance = loader->createUniqueInstance(lookup_name);
     // DO NOT use instance after this line
     this->pub = std::move(instance);
-    pub->advertise(*node, out_topic, rclcpp::SystemDefaultsQoS(), pub_options);
+    pub->advertise(this->shared_from_this(), out_topic, rmw_qos_profile_default, pub_options);
 
     RCLCPP_INFO_STREAM(
       this->get_logger(),

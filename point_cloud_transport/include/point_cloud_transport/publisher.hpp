@@ -32,9 +32,9 @@
 #ifndef POINT_CLOUD_TRANSPORT__PUBLISHER_HPP_
 #define POINT_CLOUD_TRANSPORT__PUBLISHER_HPP_
 
-#include <memory>
 #include <string>
 #include <map>
+#include <memory>
 
 #include "rclcpp/macros.hpp"
 #include "rclcpp/node.hpp"

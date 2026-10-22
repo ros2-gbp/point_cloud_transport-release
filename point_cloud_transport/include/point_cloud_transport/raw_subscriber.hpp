@@ -62,7 +62,7 @@ public:
 
   POINT_CLOUD_TRANSPORT_PUBLIC
   SubscriberPlugin::DecodeResult decodeTyped(
-    const sensor_msgs::msg::PointCloud2 & compressed) const override;
+    const sensor_msgs::msg::PointCloud2 & compressed) const;
 
   POINT_CLOUD_TRANSPORT_PUBLIC
   std::string getDataType() const override;

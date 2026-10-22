@@ -32,9 +32,18 @@
 #ifndef POINT_CLOUD_TRANSPORT__LOADER_FWDS_HPP_
 #define POINT_CLOUD_TRANSPORT__LOADER_FWDS_HPP_
 
+
 #include <memory>
 
-#include "pluginlib/class_loader.hpp"
+
+// Forward-declare some classes most users shouldn't care about so that
+// point_cloud_transport.hpp doesn't bring them in.
+
+namespace pluginlib
+{
+template<class T>
+class ClassLoader;
+}  // namespace pluginlib
 
 namespace point_cloud_transport
 {
@@ -47,5 +56,4 @@ typedef std::shared_ptr<PubLoader> PubLoaderPtr;
 typedef pluginlib::ClassLoader<SubscriberPlugin> SubLoader;
 typedef std::shared_ptr<SubLoader> SubLoaderPtr;
 }  // namespace point_cloud_transport
-
 #endif  // POINT_CLOUD_TRANSPORT__LOADER_FWDS_HPP_

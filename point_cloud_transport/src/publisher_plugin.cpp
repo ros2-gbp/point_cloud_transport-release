@@ -29,6 +29,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //
 
+#include <rmw/types.h>
+
 #include <memory>
 #include <string>
 
